@@ -1,11 +1,9 @@
 from splice.core.entities.user import User
-from splice.core.interfaces.user_repository_interface import (
-    UserRepositoryInterface,
-)
+from splice.infra.repositories.user_repository import UserRepository
 
 
 class CriarUsuario:
-    def __init__(self, user_repo: UserRepositoryInterface):
+    def __init__(self, user_repo: UserRepository):
         self.user_repo = user_repo
 
     async def execute(

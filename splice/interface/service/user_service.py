@@ -1,15 +1,13 @@
 # app/api/services/user_service.py
-from splice.core.interfaces.user_repository_interface import (
-    UserRepositoryInterface,
-)
 from splice.core.use_cases.user.atualizar_usuario import AtualizarUsuario
 from splice.core.use_cases.user.buscar_usuario import BuscarUsuario
 from splice.core.use_cases.user.criar_usuario import CriarUsuario
 from splice.core.use_cases.user.deletar_usuario import DeletarUsuario
+from splice.infra.repositories.user_repository import UserRepository
 
 
 class UserService:
-    def __init__(self, repo: UserRepositoryInterface):
+    def __init__(self, repo: UserRepository):
         self.repo = repo
 
     async def criar_usuario(
@@ -37,7 +35,9 @@ class UserService:
         caso_uso = BuscarUsuario(self.repo)
         return caso_uso.execute(user_id)
 
-    def atualizar_usuario(self, user_id: int, nome: str = None, email: str = None):
+    def atualizar_usuario(
+        self, user_id: int, nome: str = None, email: str = None
+    ):
         caso_uso = AtualizarUsuario(self.repo)
         return caso_uso.execute(user_id=user_id, nome=nome, email=email)
 

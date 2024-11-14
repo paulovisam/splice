@@ -6,7 +6,7 @@ from splice.app import app
 client = TestClient(app)
 
 
-def test_read_main():
+async def test_read_main():
     response = client.get('/')
     assert response.status_code == status.HTTP_200_OK
     assert response.json() == {'message': 'Olá Mundo!'}

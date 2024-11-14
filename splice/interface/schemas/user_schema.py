@@ -1,6 +1,7 @@
 # app/api/schemas/user_schema.py
-from pydantic import BaseModel
 from uuid import UUID
+
+from pydantic import BaseModel
 
 
 class UserCreateSchema(BaseModel):

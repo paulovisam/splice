@@ -2,12 +2,9 @@
 from sqlalchemy.orm import Session
 
 from splice.core.entities.user import User
-from splice.core.interfaces.user_repository_interface import (
-    UserRepositoryInterface,
-)
 
 
-class UserRepositoryImpl(UserRepositoryInterface):
+class UserRepository:
     def __init__(self, db_session: Session):
         self.db_session = db_session
 

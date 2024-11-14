@@ -10,7 +10,8 @@ Para instalar o projeto, siga os passos abaixo:
 poetry install
 poetry shell
 
-cp .env.example .env
+cp .env.example .env #Altere o env com as credenciais do psql
+docker compose up -d #Subir banco em 5432
 task alembic_upgrade
 task run
 ```
@@ -23,10 +24,3 @@ task run
 - **task alembic_upgrade**: Aplica as migrações de banco de dados pendentes usando o Alembic.
 - **task alembic_downgrade**: Reverte as migrações de banco de dados aplicadas usando o Alembic.
 - **task alembic_down_up**: Reverte e reaplica as migrações de banco de dados, útil para garantir que as migrações sejam idempotentes.
-
-task format
-task run
-task test
-task alembic_upgrade
-task alembic_downgrade
-task alembic_down_up

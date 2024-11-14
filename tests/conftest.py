@@ -1,5 +1,6 @@
 from contextlib import contextmanager
 from datetime import datetime
+from uuid import UUID
 
 import pytest
 from fastapi.testclient import TestClient
@@ -32,10 +33,17 @@ def mock_db_time():
 
 
 @contextmanager
-def _mock_db_time(*, model, time=datetime(2024, 1, 1)):
+def _mock_db_time(
+    *,
+    model,
+    time=datetime(2024, 1, 1),
+    uuid='188581a2-2903-49fb-87c3-a30a4598b760',
+):
     def fake_time_hook(mapper, connection, target):
         if hasattr(target, 'created_at'):
             target.created_at = time
+        if hasattr(target, 'id'):
+            target.id = UUID(uuid)
 
     event.listen(model, 'before_insert', fake_time_hook)
 
