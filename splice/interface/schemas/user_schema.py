@@ -15,6 +15,7 @@ class UserCreateSchema(BaseModel):
 
 
 class UserUpdateSchema(BaseModel):
+    id: str = None
     first_name: str = None
     last_name: str = None
     username: str = None

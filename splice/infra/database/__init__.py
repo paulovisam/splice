@@ -1,4 +1,6 @@
-from async_generator import asynccontextmanager
+# from async_generator import asynccontextmanager
+import contextlib
+
 from sqlalchemy import create_engine
 from sqlalchemy.ext.asyncio import AsyncSession, create_async_engine
 from sqlalchemy.orm import Session, sessionmaker
@@ -14,15 +16,10 @@ from splice.settings import settings
 # Async
 engine = create_async_engine(settings.DATABASE_URL, echo=True)
 
-
 async_session = sessionmaker(
     bind=engine, class_=AsyncSession, expire_on_commit=False
 )
-# def get_session():
-#     return async_session
 
 
-@asynccontextmanager
-async def get_db():
-    async with async_session() as session:
-        yield session
+def get_session():
+    return async_session
