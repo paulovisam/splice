@@ -12,7 +12,7 @@ class UserRepository:
         async with self.db_session() as session:
             if user.id is None:
                 # Inserir novo usuário
-                await session.add(user)
+                session.add(user)
             else:
                 # Atualizar usuário existente
                 await session.merge(user)
