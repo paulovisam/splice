@@ -3,9 +3,10 @@ from datetime import datetime
 
 from sqlalchemy import func
 from sqlalchemy.dialects.postgresql import UUID
-from sqlalchemy.orm import Mapped, mapped_column, registry, relationship
-from splice.infra.database.base import Base, table_registry
-from typing import List
+from sqlalchemy.orm import Mapped, mapped_column
+
+from splice.infra.database.base import table_registry
+
 
 @table_registry.mapped_as_dataclass
 class User:
@@ -28,7 +29,7 @@ class User:
         init=False, nullable=True, onupdate=func.now()
     )
 
-    #Funcionando
+    # Funcionando
     # sent_messages: Mapped[List["Message"]] = relationship(
     #     "Message",
     #     foreign_keys="Message.sender_id",
@@ -40,7 +41,6 @@ class User:
     #     back_populates="receiver"
     # )
 
-    
     # Back-populated relationships
     # sent_messages: Mapped[list["Message"]] = relationship(
     #     "Message", back_populates="sender", foreign_keys="Message.sender_id"

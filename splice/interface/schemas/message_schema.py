@@ -1,8 +1,4 @@
-from uuid import UUID
-
-from pydantic import BaseModel, Field
-from bson import ObjectId
-from typing import Optional, Any
+from pydantic import BaseModel
 
 
 class MessageCreateSchema(BaseModel):

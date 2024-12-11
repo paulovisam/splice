@@ -11,9 +11,8 @@ class MessageService:
     async def create_message(self, content: str, sender: str, receiver: str):
         use_case = CreateMessage(self.repo)
         return await use_case.execute(
-            content=content,
-            sender=sender,
-            receiver=receiver)
+            content=content, sender=sender, receiver=receiver
+        )
 
     async def get_message(self, message_id: str):
         use_case = GetMessage(self.repo)

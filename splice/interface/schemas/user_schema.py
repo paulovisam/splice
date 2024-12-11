@@ -24,6 +24,7 @@ class UserUpdateSchema(BaseModel):
     password: str = None
     photo: str = None
 
+
 class UserResponseSchema(UserCreateSchema):
     id: UUID
 

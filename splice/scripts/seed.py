@@ -35,9 +35,12 @@ async def seed():
 
         await message_repo.save(
             Message(
-                content='Olá, Alice!', sender=paulo.username, receiver=alice.username
+                content='Olá, Alice!',
+                sender=paulo.username,
+                receiver=alice.username,
             )
         )
+
 
 if __name__ == '__main__':
     import asyncio

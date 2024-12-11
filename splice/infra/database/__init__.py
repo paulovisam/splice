@@ -1,19 +1,21 @@
 # from async_generator import asynccontextmanager
 import contextlib
 
+from motor.motor_asyncio import AsyncIOMotorClient
 from sqlalchemy import create_engine
 from sqlalchemy.ext.asyncio import AsyncSession, create_async_engine
 from sqlalchemy.orm import Session, sessionmaker
 
 from splice.settings import settings
-from motor.motor_asyncio import AsyncIOMotorClient
 
-#MongoDB
+# MongoDB
 __mongo_client = AsyncIOMotorClient(settings.MONGO_URL)
 mongo_session = __mongo_client.get_database(settings.MONGO_DB_NAME)
 
+
 async def get_mongo_session():
     return mongo_session
+
 
 # Sync
 # engine = create_engine(settings.DATABASE_URL)
@@ -27,6 +29,7 @@ engine = create_async_engine(settings.DATABASE_URL, echo=True)
 async_session = sessionmaker(
     bind=engine, class_=AsyncSession, expire_on_commit=False
 )
+
 
 async def get_session():
     return async_session

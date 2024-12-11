@@ -1,7 +1,9 @@
+from typing import List
+
 from fastapi import APIRouter, Depends
 from sqlalchemy.orm import Session
-from typing import List
-from splice.infra.database import get_session, get_mongo_session
+
+from splice.infra.database import get_mongo_session, get_session
 from splice.infra.repositories.message_repository import MessageRepository
 from splice.interface.schemas.message_schema import (
     MessageCreateSchema,
@@ -24,9 +26,10 @@ async def create_message(
         receiver=data.receiver,
     )
 
+
 @router.get('/{username}', response_model=List[MessageResponseSchema])
 async def get_messages_by_username(
-    username: str, db = Depends(get_mongo_session)
+    username: str, db=Depends(get_mongo_session)
 ):
     repo = MessageRepository(db)
     service = MessageService(repo)

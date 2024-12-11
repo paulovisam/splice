@@ -33,14 +33,14 @@ def upgrade() -> None:
             ['sender_id'],
             ['users.username'],
             name='fk_messages_sender',
-            ondelete='CASCADE'
+            ondelete='CASCADE',
         ),
         sa.ForeignKeyConstraint(
             ['receiver_id'],
             ['users.username'],
             name='fk_messages_receiver',
-            ondelete='CASCADE'
-        )
+            ondelete='CASCADE',
+        ),
     )
 
 

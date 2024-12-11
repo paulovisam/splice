@@ -3,8 +3,9 @@ from datetime import datetime
 
 from sqlalchemy import ForeignKey, func
 from sqlalchemy.dialects.postgresql import UUID
-from sqlalchemy.orm import Mapped, mapped_column, registry, relationship
-from splice.infra.database.base import Base, table_registry
+from sqlalchemy.orm import Mapped, mapped_column, relationship
+
+from splice.infra.database.base import table_registry
 
 
 @table_registry.mapped_as_dataclass
@@ -26,18 +27,13 @@ class Message:
     receiver_id: Mapped[str] = mapped_column(ForeignKey('users.username'))
 
     # Relationships
-    sender: Mapped["User"] = relationship(
-        "User",
-        foreign_keys=[sender_id],
-        back_populates="sent_messages"
+    sender: Mapped['User'] = relationship(
+        'User', foreign_keys=[sender_id], back_populates='sent_messages'
     )
-    receiver: Mapped["User"] = relationship(
-        "User",
-        foreign_keys=[receiver_id],
-        back_populates="received_messages"
+    receiver: Mapped['User'] = relationship(
+        'User', foreign_keys=[receiver_id], back_populates='received_messages'
     )
 
-    
     # sender: Mapped["User"] = relationship(
     #     "User", back_populates="sent_messages", foreign_keys=[sender_id]
     # )
