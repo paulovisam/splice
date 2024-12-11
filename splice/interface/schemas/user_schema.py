@@ -24,16 +24,8 @@ class UserUpdateSchema(BaseModel):
     password: str = None
     photo: str = None
 
-
-class UserResponseSchema(BaseModel):
+class UserResponseSchema(UserCreateSchema):
     id: UUID
-    first_name: str
-    last_name: str
-    username: str
-    phone: str
-    email: str
-    password: str
-    photo: str
 
     class Config:
         from_attributes = True
