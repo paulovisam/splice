@@ -7,7 +7,7 @@ class Settings(BaseSettings):
     )
 
     # Database
-    DATABASE_URL: str = 'postgres'
+    DATABASE_URL: str = 'postgresql+asyncpg://postgres:root@localhost:5432/splice'
     DATABASE_URL_TEST: str = 'postgres'
     MONGO_DB_NAME: str = 'splice'
     MONGO_URL: str = 'mongodb://localhost:27017/splice'
@@ -15,7 +15,7 @@ class Settings(BaseSettings):
     # JWT
     JWT_ACCESS_TOKEN_EXPIRE_MINUTES: int = 1440
     JWT_ALGORITHM: str = 'HS256'
-    JWT_SECRET_KEY: str
+    JWT_SECRET_KEY: str = 'qualquer_texto'
 
     # Log
     LOG_LEVEL: str = 'DEGUB'
