@@ -17,6 +17,7 @@ pytest-asyncio = "^0.24.0"
 pytest-mock = "^3.14.0"
 async-generator = "^1.10"
 motor = "^3.6.0"
+redis = "^5.2.1"
 
 
 [tool.poetry.group.dev.dependencies]
@@ -24,6 +25,7 @@ pytest = "^8.3.3"
 pytest-cov = "^5.0.0"
 taskipy = "^1.13.0"
 ruff = "^0.6.9"
+fakeredis = "^2.26.1"
 
 [tool.ruff]
 line-length = 79
@@ -54,6 +56,11 @@ seed = 'python splice/scripts/seed.py'
 alembic_upgrade = 'cd splice; alembic upgrade head'
 alembic_downgrade = 'cd splice; alembic downgrade base'
 alembic_down_up = 'cd splice; alembic downgrade base; alembic upgrade head'
+db = 'docker compose up -d'
+mongo = 'docker compose up -d mongo'
+redis = 'docker compose up -d redis'
+postgres = 'docker compose up -d postgres'
+
 
 [build-system]
 requires = ["poetry-core"]
