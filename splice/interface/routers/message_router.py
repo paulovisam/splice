@@ -3,7 +3,7 @@ from typing import List
 from fastapi import APIRouter, Depends
 from sqlalchemy.orm import Session
 
-from splice.infra.database import get_mongo_session, get_session
+from splice.infra.database import get_mongo_session
 from splice.infra.repositories.message_repository import MessageRepository
 from splice.interface.schemas.message_schema import (
     MessageCreateSchema,
@@ -16,7 +16,7 @@ router = APIRouter(prefix='/message')
 
 @router.post('', response_model=MessageResponseSchema)
 async def create_message(
-    data: MessageCreateSchema, db: Session = Depends(get_session)
+    data: MessageCreateSchema, db: Session = Depends(get_mongo_session)
 ):
     repo = MessageRepository(db)
     service = MessageService(repo)

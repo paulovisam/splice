@@ -15,10 +15,11 @@ class MessageRepository:
     def __init__(self, mongo_session: Database):
         self.collection = mongo_session.get_collection('messages')
 
-    async def save(self, data: MessageCreateSchema) -> str:
+    async def save(self, data: MessageCreateSchema) -> MessageResponseSchema:
         try:
             result = await self.collection.insert_one(data.model_dump())
-            return str(result.inserted_id)
+            print(result)
+            return MessageResponseSchema(id=str(result.inserted_id))
         except (ValueError, TypeError) as e:
             raise e
         except errors.PyMongoError as e:

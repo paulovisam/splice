@@ -18,6 +18,11 @@ class MessageService:
         use_case = GetMessage(self.repo)
         return await use_case.get_by_id(message_id=message_id)
 
+    async def get_messages_by_username(self, username: str):
+        use_case = GetMessage(self.repo)
+        return await use_case.get_by_receiver(receiver_username=username)
+    
+
     async def delete_message(self, message_id: str):
         use_case = DeleteMessage(self.repo)
         return await use_case.execute(message_id=message_id)
