@@ -5,6 +5,7 @@ from alembic.config import Config
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
 
+from splice.interface.routers.group_router import router as group_router
 from splice.interface.routers.message_router import router as message_router
 from splice.interface.routers.user_router import router as user_router
 from splice.interface.routers.ws_router import router as ws_router
@@ -46,6 +47,7 @@ app.add_middleware(
 app.include_router(user_router)
 app.include_router(message_router)
 app.include_router(ws_router)
+app.include_router(group_router)
 
 # app.include_router([user_router, ws_router])
 
