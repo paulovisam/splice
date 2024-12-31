@@ -51,7 +51,7 @@ class MessageRepository:
         Busca mensagens enviadas por um determinado usuário.
         """
         try:
-            messages = self.collection.find({'sender': sender_username})
+            messages = self.collection.find({'sender': sender_username}).to_list()
             return [
                 MessageResponseSchema(**{**msg, 'id': str(msg['_id'])})
                 async for msg in messages
@@ -70,7 +70,7 @@ class MessageRepository:
         try:
             messages = await self.collection.find({
                 'receiver': receiver_username
-            })
+            }).to_list()
             return [
                 MessageResponseSchema(**{**msg, 'id': str(msg['_id'])})
                 for msg in messages
