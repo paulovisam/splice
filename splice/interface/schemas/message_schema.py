@@ -1,4 +1,5 @@
 from pydantic import BaseModel
+from typing import Optional
 
 
 class MessageCreateSchema(BaseModel):
@@ -13,5 +14,8 @@ class MessageUpdateSchema(BaseModel):
     receiver: str = None
 
 
-class MessageResponseSchema(MessageCreateSchema):
+class MessageResponseSchema(BaseModel):
     id: str
+    content: Optional[str] = None
+    sender: Optional[str] = None
+    receiver: Optional[str] = None

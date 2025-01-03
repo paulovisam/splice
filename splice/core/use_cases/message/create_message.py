@@ -1,4 +1,6 @@
-from splice.core.entities.messages import Message
+from splice.interface.schemas.message_schema import (
+    MessageCreateSchema
+)
 from splice.infra.repositories.message_repository import MessageRepository
 
 
@@ -7,7 +9,7 @@ class CreateMessage:
         self.message_repository = message_repository
 
     async def execute(self, content: str, sender: str, receiver: str):
-        new_message = Message(
+        new_message = MessageCreateSchema(
             content=content,
             sender=sender,
             receiver=receiver,

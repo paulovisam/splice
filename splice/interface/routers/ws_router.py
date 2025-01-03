@@ -14,11 +14,11 @@ async def websocket_endpoint(websocket: WebSocket):
     except WebSocketDisconnect:
         await websocket.close()
 
-@router.websocket("/ws/{port}/{chat_id}")
-async def websocket_endpoint(websocket: WebSocket, port: int, chat_id: str):
+@router.websocket("/ws/{chat_id}")
+async def websocket_endpoint(websocket: WebSocket, chat_id: str):
     service = WSService()
     
     if chat_id is None:
         await websocket.close(code=4000, reason="chat_id não fornecido na query")
         return
-    await service.handle_client(websocket, port, chat_id)
+    await service.handle_client(websocket, chat_id)
