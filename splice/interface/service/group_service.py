@@ -1,6 +1,6 @@
 from splice.core.use_cases.group.delete_group import DeleteGroup
-from splice.core.use_cases.group.save_group import SaveGroup
 from splice.core.use_cases.group.get_group import GetGroup
+from splice.core.use_cases.group.save_group import SaveGroup
 from splice.core.use_cases.group.update_group import UpdateGroup
 from splice.infra.repositories.group_repository import GroupRepository
 

@@ -1,6 +1,7 @@
 from splice.core.entities.group import Group
 from splice.infra.repositories.group_repository import GroupRepository
 
+
 class SaveGroup:
     def __init__(self, group_repo: GroupRepository):
         self.group_repo = group_repo
