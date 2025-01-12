@@ -5,4 +5,4 @@ class DeleteGroup:
         self.group_repo = group_repo
 
     async def execute(self, group_id: int):
-        await self.group_repo.deletar(group_id)
+        await self.group_repo.delete(group_id)

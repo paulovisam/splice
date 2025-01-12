@@ -11,10 +11,10 @@ class GroupRepository:
     async def save(self, group: Group) -> Group:
         async with self.db_session() as session:
             if group.id is None:
-                # Inserir novo usuário
+                # Inserir novo group
                 session.add(group)
             else:
-                # Atualizar usuário existente
+                # Atualizar group existente
                 await session.merge(group)
             await session.commit()
             return group
