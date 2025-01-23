@@ -11,6 +11,9 @@ from splice.interface.routers.user_router import router as user_router
 from splice.interface.routers.ws_router import router as ws_router
 from splice.settings import settings
 
+from splice.interface.exceptions.custom_exceptions import *
+from splice.interface.exceptions.handlers import *
+
 
 @asynccontextmanager
 async def lifespan(app: FastAPI):
@@ -49,9 +52,11 @@ app.include_router(message_router)
 app.include_router(ws_router)
 app.include_router(group_router)
 
-# app.include_router([user_router, ws_router])
 
-
+app.add_exception_handler(ValueError, invalid_value)
+app.add_exception_handler(NotFoundException, not_found_exception_handler)
+app.add_exception_handler(BusinessException, business_exception_handler)
+app.add_exception_handler(ValidationException, validation_exception_handler)
 @app.get('/')
 async def read_root():
     return {'message': 'Olá Mundo!'}
