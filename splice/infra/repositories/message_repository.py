@@ -37,7 +37,7 @@ class MessageRepository:
                 '_id': ObjectId(message_id)
             })
             if message:
-                return MessageResponseSchema(**message)
+                return MessageResponseSchema(id=str(message['_id']), **message)
             return None
         except errors.PyMongoError as e:
             raise Exception(

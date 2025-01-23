@@ -1,12 +1,26 @@
 from fastapi import Request
 from fastapi.responses import JSONResponse
-from splice.interface.exceptions.custom_exceptions import NotFoundException, BusinessException, ValidationException
+
+from splice.interface.exceptions.custom_exceptions import (
+    BusinessException,
+    NotFoundException,
+    ValidationException,
+)
+
 
 async def invalid_value(request: Request, exc: ValueError):
     return JSONResponse(
         status_code=500,
-        content={"error": f"Invalid Value", "detail": str(exc)},
+        content={"error": "Invalid Value", "detail": str(exc)},
     )
+
+
+async def invalid_type(request: Request, exc: TypeError):
+    return JSONResponse(
+        status_code=500,
+        content={"error": "Invalid Value", "detail": str(exc)},
+    )
+
 
 async def not_found_exception_handler(request: Request, exc: NotFoundException):
     return JSONResponse(
@@ -14,17 +28,20 @@ async def not_found_exception_handler(request: Request, exc: NotFoundException):
         content={"error": "Not Found", "detail": exc.detail},
     )
 
+
 async def business_exception_handler(request: Request, exc: BusinessException):
     return JSONResponse(
         status_code=400,
         content={"error": "Business Error", "detail": exc.detail},
     )
 
+
 async def validation_exception_handler(request: Request, exc: ValidationException):
     return JSONResponse(
         status_code=422,
         content={"error": "Validation Error", "detail": exc.detail},
     )
+
 
 async def generic_exception_handler(request: Request, exc: Exception):
     return JSONResponse(
