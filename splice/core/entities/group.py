@@ -1,7 +1,7 @@
 import uuid
 
 from sqlalchemy.dialects.postgresql import UUID
-from sqlalchemy.orm import Mapped, mapped_column, registry
+from sqlalchemy.orm import Mapped, mapped_column
 
 from splice.infra.database.base import table_registry
 

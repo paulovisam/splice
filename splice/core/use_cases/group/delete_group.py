@@ -1,5 +1,6 @@
 from splice.infra.repositories.group_repository import GroupRepository
 
+
 class DeleteGroup:
     def __init__(self, group_repo: GroupRepository):
         self.group_repo = group_repo

@@ -1,9 +1,10 @@
 from splice.infra.repositories.group_repository import GroupRepository
 
+
 class UpdateGroup:
     def __init__(self, group_repo: GroupRepository):
         self.group_repo = group_repo
-    
+
     async def execute(self, group_id: str, **kwargs):
         # Obtém o grupo pelo ID
         group = await self.group_repo.get_by_id(group_id)
