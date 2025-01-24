@@ -1,7 +1,5 @@
-from splice.interface.schemas.message_schema import (
-    MessageCreateSchema
-)
 from splice.infra.repositories.message_repository import MessageRepository
+from splice.interface.schemas.message_schema import MessageCreateSchema
 
 
 class CreateMessage:

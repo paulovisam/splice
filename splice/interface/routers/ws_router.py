@@ -1,4 +1,5 @@
 from fastapi import APIRouter, WebSocket, WebSocketDisconnect
+
 from splice.interface.service.ws_service import WSService
 
 router = APIRouter()
@@ -14,10 +15,11 @@ async def websocket_endpoint(websocket: WebSocket):
     except WebSocketDisconnect:
         await websocket.close()
 
+
 @router.websocket("/ws/{chat_id}")
 async def websocket_endpoint(websocket: WebSocket, chat_id: str):
     service = WSService()
-    
+
     if chat_id is None:
         await websocket.close(code=4000, reason="chat_id não fornecido na query")
         return
