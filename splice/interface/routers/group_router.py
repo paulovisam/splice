@@ -36,7 +36,7 @@ async def get_group(
 
 
 @router.post('', response_model=GroupResponseSchema)
-async def save_group(
+async def post_group(
     data: GroupCreateSchema = Body(),
     db_session: Session = Depends(get_session),
 ):
