@@ -1,16 +1,20 @@
 from fastapi import WebSocket, WebSocketDisconnect
+
 from splice.infra.repositories.redis_repository import RedisRepository
+
 global clients
 clients = {}
+
 
 class WSService:
     def __init__(self):
         self.clients = clients
         self.redis = RedisRepository()
+
     async def handle_client(
         self, websocket: WebSocket, chat_id: str
     ):
-        
+
         await websocket.accept()
         if chat_id not in self.clients:
             self.clients[chat_id] = set()
@@ -27,7 +31,7 @@ class WSService:
                 print(
                     f'Mensagem recebida de {websocket.client}, chat_id: {chat_id}: {message}'
                 )
-                
+
                 # for client in self.clients[chat_id]:
                 for client in self.redis.get_clients_ws(chat_id=chat_id):
                     if client != websocket:

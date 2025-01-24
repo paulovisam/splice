@@ -1,6 +1,5 @@
 # from async_generator import asynccontextmanager
 import redis
-
 from motor.motor_asyncio import AsyncIOMotorClient
 from sqlalchemy import create_engine
 from sqlalchemy.ext.asyncio import AsyncSession, create_async_engine
@@ -8,7 +7,7 @@ from sqlalchemy.orm import Session, sessionmaker
 
 from splice.settings import settings
 
-#Redis
+# Redis
 redis_session = redis.Redis(host='localhost', port=6379, db=0)
 
 # MongoDB

@@ -1,5 +1,5 @@
-import redis
 from splice.infra.database import redis_session
+
 
 class RedisRepository:
     def __init__(self):
