@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Modern Webchat</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+</head>
+<body class="bg-gray-100 h-screen flex items-center justify-center">
+    <div class="bg-white shadow-lg rounded-xl w-full max-w-md flex flex-col h-[90vh]">
+        <!-- Header -->
+        <header class="bg-blue-600 text-white text-center py-4 rounded-t-lg">
+            <h1 class="text-2xl font-bold">Splice</h1>
+        </header>
+
+        <!-- Chat Container -->
+        <main class="flex-1 p-4 overflow-y-auto" id="chatContainer">
+            <div id="messages" class="space-y-4">
+                <!-- Example message -->
+                <!-- User Message -->
+                <div class="flex justify-end">
+                    <div class="bg-blue-500 text-white p-3 rounded-lg max-w-xs shadow">
+                        Hello, how are you?
+                    </div>
+                </div>
+                <!-- Bot Message -->
+                <div class="flex justify-start">
+                    <div class="bg-gray-300 p-3 rounded-lg max-w-xs shadow">
+                        I'm good, thank you! How can I help you today?
+                    </div>
+                </div>
+            </div>
+        </main>
+
+        <!-- Input Area -->
+        <footer class="bg-gray-100 p-4 shadow-inner flex items-center space-x-2 rounded-b-lg">
+            <input 
+                id="messageInput"
+                type="text" 
+                placeholder="Type a message..." 
+                class="flex-1 border border-gray-300 rounded-lg px-4 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500"
+            />
+            <button 
+                id="sendMessage" 
+                class="bg-blue-500 text-white px-4 py-2 rounded-lg hover:bg-blue-600 focus:outline-none focus:ring-2 focus:ring-blue-500"
+            >
+                Send
+            </button>
+        </footer>
+    </div>
+
+    <script>
+        const messagesContainer = document.getElementById('messages');
+        const messageInput = document.getElementById('messageInput');
+        const sendMessageButton = document.getElementById('sendMessage');
+
+        function addMessage(content, isUser = true) {
+            const messageDiv = document.createElement('div');
+            messageDiv.className = `flex ${isUser ? 'justify-end' : 'justify-start'}`;
+
+            const messageBubble = document.createElement('div');
+            messageBubble.className = `${isUser ? 'bg-blue-500 text-white' : 'bg-gray-300'} p-3 rounded-lg max-w-xs shadow`;
+            messageBubble.textContent = content;
+
+            messageDiv.appendChild(messageBubble);
+            messagesContainer.appendChild(messageDiv);
+
+            // Scroll to the bottom
+            const chatContainer = document.getElementById('chatContainer');
+            chatContainer.scrollTop = chatContainer.scrollHeight;
+        }
+
+        sendMessageButton.addEventListener('click', () => {
+            const message = messageInput.value.trim();
+            if (!message) return;
+
+            // Add user's message
+            addMessage(message);
+
+            // Clear input field
+            messageInput.value = '';
+
+            // Mock bot response
+            setTimeout(() => addMessage("I'm just a bot!", false), 100);
+        });
+
+        messageInput.addEventListener('keydown', (event) => {
+            if (event.key === 'Enter') {
+                sendMessageButton.click();
+            }
+        });
+    </script>
+</body>
+</html>
