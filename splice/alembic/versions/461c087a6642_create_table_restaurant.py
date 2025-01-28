@@ -27,10 +27,10 @@ def upgrade() -> None:
         sa.Column('name', sa.String(), nullable=False),
         sa.Column('description', sa.String()),
         sa.Column('photo', sa.String()),
-        sa.Column('created_at', TIMESTAMP),
-        sa.Column('updated_at', TIMESTAMP, nullable=True),
+        sa.Column('created_at', TIMESTAMP, server_default=sa.func.now()),
+        sa.Column('updated_at', TIMESTAMP, nullable=True)
     )
 
 
 def downgrade() -> None:
-    op.drop_table('restaurant')
+    op.drop_table('restaurants')

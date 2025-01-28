@@ -30,8 +30,8 @@ def upgrade() -> None:
         sa.Column('username', sa.String(), nullable=False, unique=True),
         sa.Column('password', sa.String(), nullable=False),
         sa.Column('photo', sa.String(), nullable=False),
-        sa.Column('created_at', TIMESTAMP),
-        sa.Column('updated_at', TIMESTAMP, nullable=True),
+        sa.Column('created_at', TIMESTAMP, server_default=sa.func.now()),
+        sa.Column('updated_at', TIMESTAMP, nullable=True)
     )
 
 

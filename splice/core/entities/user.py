@@ -14,15 +14,15 @@ class User:
     id: Mapped[uuid.UUID] = mapped_column(
         UUID(as_uuid=True), init=False, primary_key=True, default=uuid.uuid4
     )
-    first_name: Mapped[str]
-    last_name: Mapped[str]
-    phone: Mapped[str] = mapped_column(unique=True)
-    email: Mapped[str] = mapped_column(unique=True)
-    username: Mapped[str] = mapped_column(unique=True)
-    password: Mapped[str]
+    first_name: Mapped[str] = mapped_column(nullable=False)
+    last_name: Mapped[str] = mapped_column(nullable=False)
+    phone: Mapped[str] = mapped_column(nullable=False, unique=True)
+    email: Mapped[str] = mapped_column(nullable=False, unique=True)
+    username: Mapped[str] = mapped_column(nullable=False, unique=True)
+    password: Mapped[str] = mapped_column(nullable=False)
     photo: Mapped[str]
     created_at: Mapped[datetime] = mapped_column(
-        init=False, server_default=func.now()
+        init=False, server_default=func.now(), nullable=False
     )
     updated_at: Mapped[datetime] = mapped_column(
         init=False, nullable=True, onupdate=func.now()
