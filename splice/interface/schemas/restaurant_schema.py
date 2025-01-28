@@ -14,7 +14,7 @@ class RestaurantUpdateSchema(BaseModel):
     description: str = None
     photo: str = None
 
-class RestaurantRespondeSchema(RestaurantCreateSchema):
+class RestaurantResponseSchema(RestaurantCreateSchema):
     id: UUID
     user_id: UUID
 

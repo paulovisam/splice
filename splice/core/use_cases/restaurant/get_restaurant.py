@@ -9,10 +9,8 @@ class GetRestaurant:
         self, 
         restaurant_id: str = None,
         user_id: str = None,
-    ):
+    ) -> Restaurant | None:
         if restaurant_id:
             return await self.repo.get_by_id(restaurant_id=restaurant_id)
         if user_id:
             return await self.repo.get_by_user_id(user_id=user_id)
-        
-        

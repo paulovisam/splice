@@ -20,17 +20,21 @@ class RestaurantService:
             user_id=user_id
         )
     
-    async def get_restaurant(
+    async def get_restaurant_by_id(
         self,
         restaurant_id: str,
-        user_id: str
     ):
         use_case = GetRestaurant(restaurant_repo=self.repo)
-        return await use_case.execute(
-            restaurant_id=restaurant_id,
-            user_id=user_id
-        )
-    
+        return await use_case.execute(restaurant_id=restaurant_id)
+
+    async def get_restaurant_by_user_id(
+        self,
+        user_id: str,
+    ):
+        use_case = GetRestaurant(restaurant_repo=self.repo)
+        return await use_case.execute(user_id=user_id)
+
+
     async def update_restaurant(
         self,
         id: str,
