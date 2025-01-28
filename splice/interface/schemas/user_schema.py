@@ -2,8 +2,8 @@
 from uuid import UUID
 
 from pydantic import BaseModel
+
 from .restaurant_schema import RestaurantResponseSchema
-from typing import Any
 
 
 class UserCreateSchema(BaseModel):

@@ -1,12 +1,15 @@
-from splice.infra.repositories.restaurant_repository import RestaurantRepository
 from splice.core.entities.restaurant import Restaurant
+from splice.infra.repositories.restaurant_repository import (
+    RestaurantRepository,
+)
+
+
 class CreateRestaurant:
     def __init__(self, restaurant_repo: RestaurantRepository):
         self.repo = restaurant_repo
 
-
     async def execute(
-        self, 
+        self,
         name: str,
         description: str,
         photo: str,
@@ -19,4 +22,3 @@ class CreateRestaurant:
             user_id=user_id
         )
         return await self.repo.save(new_restaurant)
-        

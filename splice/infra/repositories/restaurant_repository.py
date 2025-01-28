@@ -21,7 +21,7 @@ class RestaurantRepository:
         async with self.db_session() as session:
             statement = select(Restaurant).filter_by(id=restaurant_id)
             return (await session.execute(statement)).scalar_one_or_none()
-    
+
     async def get_by_user_id(self, user_id: int) -> Restaurant | None:
         async with self.db_session() as session:
             statement = select(Restaurant).filter_by(user_id=user_id)

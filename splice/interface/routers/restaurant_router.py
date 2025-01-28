@@ -1,15 +1,20 @@
-from typing import List, Optional
 
 from fastapi import APIRouter, Depends, HTTPException
 from sqlalchemy.orm import Session
 
-
 from splice.infra.database import get_pg_session
-from splice.infra.repositories.restaurant_repository import RestaurantRepository
-from splice.interface.schemas.restaurant_schema import RestaurantCreateSchema, RestaurantResponseSchema, RestaurantUpdateSchema
+from splice.infra.repositories.restaurant_repository import (
+    RestaurantRepository,
+)
+from splice.interface.schemas.restaurant_schema import (
+    RestaurantCreateSchema,
+    RestaurantResponseSchema,
+    RestaurantUpdateSchema,
+)
 from splice.interface.service.restaurant_service import RestaurantService
 
 router = APIRouter(prefix='/restaurant')
+
 
 @router.post('')
 async def create_restaurant(
@@ -21,6 +26,7 @@ async def create_restaurant(
     print(data.model_dump())
     print(type(data.model_dump()))
     return await service.create_restaurant(**data.model_dump())
+
 
 @router.get('', response_model=RestaurantResponseSchema)
 async def get_restaurant(
@@ -42,6 +48,7 @@ async def get_restaurant(
         raise HTTPException(status_code=404, detail='Restaurant not found')
     return restaurant
 
+
 @router.put('')
 async def update_restaurant(
     data: RestaurantUpdateSchema,
@@ -50,6 +57,7 @@ async def update_restaurant(
     repo = RestaurantRepository(db)
     service = RestaurantService(repo)
     return await service.update_restaurant(**data.model_dump())
+
 
 @router.delete('')
 async def delete_restaurant(

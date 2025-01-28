@@ -1,11 +1,12 @@
 import uuid
 from datetime import datetime
 
-from sqlalchemy import func, ForeignKey
+from sqlalchemy import ForeignKey, func
 from sqlalchemy.dialects.postgresql import UUID
 from sqlalchemy.orm import Mapped, mapped_column
 
 from splice.infra.database.base import table_registry
+
 
 @table_registry.mapped_as_dataclass
 class Restaurant:

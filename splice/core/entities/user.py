@@ -7,6 +7,7 @@ from sqlalchemy.orm import Mapped, mapped_column, relationship
 
 from splice.infra.database.base import table_registry
 
+
 @table_registry.mapped_as_dataclass
 class User:
     __tablename__ = 'users'

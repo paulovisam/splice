@@ -1,10 +1,18 @@
-from splice.infra.repositories.restaurant_repository import RestaurantRepository
-from splice.core.use_cases.restaurant import DeleteRestaurant, CreateRestaurant, GetRestaurant, UpdateRestaurant
+from splice.core.use_cases.restaurant import (
+    CreateRestaurant,
+    DeleteRestaurant,
+    GetRestaurant,
+    UpdateRestaurant,
+)
+from splice.infra.repositories.restaurant_repository import (
+    RestaurantRepository,
+)
+
 
 class RestaurantService:
     def __init__(self, repo: RestaurantRepository):
         self.repo = repo
-    
+
     async def create_restaurant(
         self,
         name: str,
@@ -19,7 +27,7 @@ class RestaurantService:
             photo=photo,
             user_id=user_id
         )
-    
+
     async def get_restaurant_by_id(
         self,
         restaurant_id: str,
@@ -33,7 +41,6 @@ class RestaurantService:
     ):
         use_case = GetRestaurant(restaurant_repo=self.repo)
         return await use_case.execute(user_id=user_id)
-
 
     async def update_restaurant(
         self,
@@ -51,7 +58,7 @@ class RestaurantService:
             description=description,
             photo=photo
         )
-        
+
     async def delete_restaurant(self, restaurant_id: str):
         use_case = DeleteRestaurant(self.repo)
 

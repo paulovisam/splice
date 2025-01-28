@@ -1,5 +1,6 @@
-from splice.infra.repositories.restaurant_repository import RestaurantRepository
-from splice.core.entities.restaurant import Restaurant
+from splice.infra.repositories.restaurant_repository import (
+    RestaurantRepository,
+)
 
 
 class UpdateRestaurant():

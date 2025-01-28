@@ -1,20 +1,27 @@
-from splice.core.entities.user import User
-from splice.core.entities.restaurant import Restaurant
-from splice.core.entities.group import Group
-from splice.infra.database import mongo_session, async_session
-from splice.infra.repositories.message_repository import MessageRepository, MessageCreateSchema
-from splice.infra.repositories.user_repository import UserRepository
-from splice.infra.repositories.group_repository import GroupRepository
-from splice.infra.repositories.restaurant_repository import RestaurantRepository
 import os
 import random
 
+from splice.core.entities.group import Group
+from splice.core.entities.restaurant import Restaurant
+from splice.core.entities.user import User
+from splice.infra.database import async_session, mongo_session
+from splice.infra.repositories.group_repository import GroupRepository
+from splice.infra.repositories.message_repository import (
+    MessageCreateSchema,
+    MessageRepository,
+)
+from splice.infra.repositories.restaurant_repository import (
+    RestaurantRepository,
+)
+from splice.infra.repositories.user_repository import UserRepository
+
+
 async def seed():
-    #Drop tables
+    # Drop tables
     os.system('task alembic_down_up')
     mongo_session.drop_collection('messages')
 
-    #Prepare data
+    # Prepare data
     paulo = User(
                 first_name='Paulo',
                 last_name='Mendonca',
@@ -33,20 +40,20 @@ async def seed():
                 password='123',
                 photo='my_photo',
             )
-    
+
     restaurant = Restaurant(
             name='Restaurante do Paulo',
             description='Restaurante do Paulo',
             photo='Rua 1, 123',
             user_id=paulo.id,
         )
-    
+
     group = Group(
         name='Grupo do Paulo',
         photo='link_photo',
     )
 
-    #Postgres    
+    # Postgres
     user_repo = UserRepository(async_session)
     await user_repo.save(paulo)
     await user_repo.save(alice)
@@ -58,7 +65,7 @@ async def seed():
     group_repo = GroupRepository(async_session)
     await group_repo.save(group)
 
-    #Mongo
+    # Mongo
     message_repo = MessageRepository(mongo_session=mongo_session)
     for _ in range(10):
         await message_repo.save(
@@ -68,7 +75,6 @@ async def seed():
                 receiver=alice.username,
             )
         )
-
 
 
 if __name__ == '__main__':
