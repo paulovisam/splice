@@ -2,7 +2,7 @@ from fastapi import APIRouter, Body, Depends
 from fastapi.exceptions import HTTPException
 from sqlalchemy.orm import Session
 
-from splice.infra.database import get_session
+from splice.infra.database import get_pg_session
 from splice.infra.repositories.group_repository import GroupRepository
 from splice.interface.schemas.group_schema import (
     GroupCreateSchema,
@@ -17,7 +17,7 @@ router = APIRouter(prefix='/groups')
 @router.get('', response_model=GroupResponseSchema)
 async def get_group(
     group_id: str = None,
-    db_session: Session = Depends(get_session)
+    db_session: Session = Depends(get_pg_session)
 ):
     repo = GroupRepository(db_session)
     service = GroupService(repo)
@@ -38,7 +38,7 @@ async def get_group(
 @router.post('', response_model=GroupResponseSchema)
 async def post_group(
     data: GroupCreateSchema = Body(),
-    db_session: Session = Depends(get_session),
+    db_session: Session = Depends(get_pg_session),
 ):
     repo = GroupRepository(db_session)
     service = GroupService(repo)
@@ -52,7 +52,7 @@ async def post_group(
 @router.put('', response_model=GroupResponseSchema)
 async def update_group(
     data: GroupUpdateSchema = Body(),
-    db_session: Session = Depends(get_session)
+    db_session: Session = Depends(get_pg_session)
 ):
     repo = GroupRepository(db_session)
     service = GroupService(repo)
@@ -65,7 +65,7 @@ async def update_group(
 
 
 @router.delete('')
-async def delete_group(group_id: str, db_session=Depends(get_session)):
+async def delete_group(group_id: str, db_session=Depends(get_pg_session)):
     repo = GroupRepository(db_session)
     service = GroupService(repo)
     return await service.delete_group(group_id)

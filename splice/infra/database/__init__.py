@@ -21,7 +21,7 @@ async def get_mongo_session():
 
 # Sync
 # engine = create_engine(settings.DATABASE_URL)
-# def get_session():
+# def get_pg_session():
 #     with Session(engine) as session:
 #         yield session
 
@@ -33,7 +33,7 @@ async_session = sessionmaker(
 )
 
 
-async def get_session():
+async def get_pg_session():
     return async_session
     # async with async_session() as session:
     #         yield session

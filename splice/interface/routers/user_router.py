@@ -2,7 +2,7 @@ from fastapi import APIRouter, Body, Depends
 from fastapi.exceptions import HTTPException
 from sqlalchemy.orm import Session
 
-from splice.infra.database import get_session
+from splice.infra.database import get_pg_session
 from splice.infra.repositories.user_repository import UserRepository
 from splice.interface.schemas.user_schema import (
     UserCreateSchema,
@@ -20,7 +20,7 @@ async def get_user(
     username: str = None,
     email: str = None,
     phone: str = None,
-    db_session: Session = Depends(get_session),
+    db_session: Session = Depends(get_pg_session),
 ):
     repo = UserRepository(db_session)
     service = UserService(repo)
@@ -46,7 +46,7 @@ async def get_user(
 @router.post('', response_model=UserResponseSchema)
 async def create_user(
     data: UserCreateSchema = Body(),
-    db_session: Session = Depends(get_session),
+    db_session: Session = Depends(get_pg_session),
 ):
     repo = UserRepository(db_session)
     service = UserService(repo)
@@ -63,7 +63,7 @@ async def create_user(
 
 @router.put('', response_model=UserResponseSchema)
 async def update_user(
-    data: UserUpdateSchema = Body(), db_session: Session = Depends(get_session)
+    data: UserUpdateSchema = Body(), db_session: Session = Depends(get_pg_session)
 ):
     repo = UserRepository(db_session)
     service = UserService(repo)
@@ -76,7 +76,7 @@ async def update_user(
 
 
 @router.delete('')
-async def delete_user(user_id: str, db_session=Depends(get_session)):
+async def delete_user(user_id: str, db_session=Depends(get_pg_session)):
     repo = UserRepository(db_session)
     service = UserService(repo)
     return await service.delete_user(user_id)

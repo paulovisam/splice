@@ -4,7 +4,7 @@ from fastapi import APIRouter, Depends, HTTPException
 from sqlalchemy.orm import Session
 
 
-from splice.infra.database import get_session
+from splice.infra.database import get_pg_session
 from splice.infra.repositories.restaurant_repository import RestaurantRepository
 from splice.interface.schemas.restaurant_schema import RestaurantCreateSchema, RestaurantResponseSchema, RestaurantUpdateSchema
 from splice.interface.service.restaurant_service import RestaurantService
@@ -14,7 +14,7 @@ router = APIRouter(prefix='/restaurant')
 @router.post('')
 async def create_restaurant(
     data: RestaurantCreateSchema,
-    db: Session = Depends(get_session)
+    db: Session = Depends(get_pg_session)
 ):
     repo = RestaurantRepository(db)
     service = RestaurantService(repo)
@@ -26,7 +26,7 @@ async def create_restaurant(
 async def get_restaurant(
     restaurant_id: str = None,
     user_id: str = None,
-    db: Session = Depends(get_session)
+    db: Session = Depends(get_pg_session)
 ):
     repo = RestaurantRepository(db)
     service = RestaurantService(repo)
@@ -45,7 +45,7 @@ async def get_restaurant(
 @router.put('')
 async def update_restaurant(
     data: RestaurantUpdateSchema,
-    db: Session = Depends(get_session)
+    db: Session = Depends(get_pg_session)
 ):
     repo = RestaurantRepository(db)
     service = RestaurantService(repo)
@@ -54,7 +54,7 @@ async def update_restaurant(
 @router.delete('')
 async def delete_restaurant(
     restaurant_id: str,
-    db: Session = Depends(get_session)
+    db: Session = Depends(get_pg_session)
 ):
     repo = RestaurantRepository(db)
     service = RestaurantService(repo)

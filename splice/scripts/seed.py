@@ -1,12 +1,12 @@
 from splice.core.entities.messages import Message
 from splice.core.entities.user import User
-from splice.infra.database import get_session
+from splice.infra.database import get_pg_session
 from splice.infra.repositories.message_repository import MessageRepository
 from splice.infra.repositories.user_repository import UserRepository
 
 
 async def seed():
-    async with get_session() as session:
+    async with get_pg_session() as session:
         user_repo = UserRepository(session)
         message_repo = MessageRepository(session)
 
