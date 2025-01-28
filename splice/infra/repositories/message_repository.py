@@ -18,8 +18,7 @@ class MessageRepository:
     async def save(self, data: MessageCreateSchema) -> MessageResponseSchema:
         try:
             result = await self.collection.insert_one(data.model_dump())
-            print(result)
-            return MessageResponseSchema(id=str(result.inserted_id))
+            return MessageResponseSchema(id=str(result.inserted_id), **data.model_dump())
         except (ValueError, TypeError) as e:
             raise e
         except errors.PyMongoError as e:

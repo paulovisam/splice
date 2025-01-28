@@ -9,6 +9,7 @@ class MessageCreateSchema(BaseModel):
     sender: str
     receiver: str
     created_at: datetime = datetime.now()
+    updated_at: Optional[datetime] = None
 
 
 class MessageUpdateSchema(BaseModel):
