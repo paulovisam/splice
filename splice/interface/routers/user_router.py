@@ -26,7 +26,7 @@ async def get_user(
     service = UserService(repo)
 
     if user_id:
-        usuario = await service.get_user(user_id)
+        usuario = await service.get_user_by_id(user_id)
     elif username:
         usuario = await service.get_user_by_username(username)
     elif email:
@@ -40,7 +40,6 @@ async def get_user(
 
     if not usuario:
         raise HTTPException(status_code=404, detail='Usuário não encontrado')
-
     return usuario
 
 
@@ -51,15 +50,14 @@ async def create_user(
 ):
     repo = UserRepository(db_session)
     service = UserService(repo)
-    usuario = await service.create_user(
-        first_name=data.first_name,
-        last_name=data.last_name,
-        phone=data.phone,
-        email=data.email,
-        username=data.username,
-        password=data.password,
-        photo=data.photo,
-    )
+    usuario = await service.create_user(**data.model_dump())
+        # first_name=data.first_name,
+        # last_name=data.last_name,
+        # phone=data.phone,
+        # email=data.email,
+        # username=data.username,
+        # password=data.password,
+        # photo=data.photo,
     return usuario
 
 

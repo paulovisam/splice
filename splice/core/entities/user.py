@@ -3,10 +3,9 @@ from datetime import datetime
 
 from sqlalchemy import func
 from sqlalchemy.dialects.postgresql import UUID
-from sqlalchemy.orm import Mapped, mapped_column
+from sqlalchemy.orm import Mapped, mapped_column, relationship
 
 from splice.infra.database.base import table_registry
-
 
 @table_registry.mapped_as_dataclass
 class User:
@@ -29,25 +28,9 @@ class User:
         init=False, nullable=True, onupdate=func.now()
     )
 
-    # Funcionando
-    # sent_messages: Mapped[List["Message"]] = relationship(
-    #     "Message",
-    #     foreign_keys="Message.sender_id",
-    #     back_populates="sender"
-    # )
-    # received_messages: Mapped[List["Message"]] = relationship(
-    #     "Message",
-    #     foreign_keys="Message.receiver_id",
-    #     back_populates="receiver"
-    # )
-
-    # Back-populated relationships
-    # sent_messages: Mapped[list["Message"]] = relationship(
-    #     "Message", back_populates="sender", foreign_keys="Message.sender_id"
-    # )
-    # received_messages: Mapped[list["Message"]] = relationship(
-    #     "Message", back_populates="receiver", foreign_keys="Message.receiver_id"
-    # )
+    restaurant: Mapped['Restaurant'] = relationship(
+        "Restaurant", backref="user", cascade="all, delete-orphan", lazy='joined', init=False
+    )
 
     def dict(self):
         return {
