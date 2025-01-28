@@ -9,9 +9,8 @@ from splice.interface.exceptions.custom_exceptions import *
 from splice.interface.exceptions.handlers import *
 from splice.interface.routers.group_router import router as group_router
 from splice.interface.routers.message_router import router as message_router
-from splice.interface.routers.notification_router import (
-    router as notification_router,
-)
+from splice.interface.routers.notification_router import router as notification_router
+from splice.interface.routers.subproduct_router import router as subproduct_router
 from splice.interface.routers.user_router import router as user_router
 from splice.interface.routers.ws_router import router as ws_router
 from splice.settings import settings
@@ -54,13 +53,14 @@ app.include_router(message_router)
 app.include_router(ws_router)
 app.include_router(group_router)
 app.include_router(notification_router)
+app.include_router(subproduct_router)
 
 
-app.add_exception_handler(ValueError, invalid_value)
+# app.add_exception_handler(ValueError, invalid_value)
 app.add_exception_handler(NotFoundException, not_found_exception_handler)
 app.add_exception_handler(BusinessException, business_exception_handler)
 app.add_exception_handler(ValidationException, validation_exception_handler)
-app.add_exception_handler(TypeError, invalid_type)
+# app.add_exception_handler(TypeError, invalid_type)
 
 
 @app.get('/')
