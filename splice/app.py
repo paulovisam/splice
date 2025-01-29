@@ -8,6 +8,7 @@ from fastapi.middleware.cors import CORSMiddleware
 from splice.interface.exceptions.custom_exceptions import *
 from splice.interface.exceptions.handlers import *
 from splice.interface.routers.group_router import router as group_router
+from splice.interface.routers.event_router import router as event_router
 from splice.interface.routers.message_router import router as message_router
 from splice.interface.routers.notification_router import (
     router as notification_router,
@@ -56,6 +57,7 @@ app.include_router(ws_router)
 app.include_router(group_router)
 app.include_router(notification_router)
 app.include_router(restaurant_router)
+app.include_router(event_router)
 
 
 app.add_exception_handler(ValueError, invalid_value)
