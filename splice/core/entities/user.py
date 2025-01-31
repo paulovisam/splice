@@ -3,7 +3,7 @@ from datetime import datetime
 
 from sqlalchemy import func
 from sqlalchemy.dialects.postgresql import UUID
-from sqlalchemy.orm import Mapped, mapped_column
+from sqlalchemy.orm import Mapped, mapped_column, relationship
 
 from splice.infra.database.base import table_registry
 
@@ -15,39 +15,23 @@ class User:
     id: Mapped[uuid.UUID] = mapped_column(
         UUID(as_uuid=True), init=False, primary_key=True, default=uuid.uuid4
     )
-    first_name: Mapped[str]
-    last_name: Mapped[str]
-    phone: Mapped[str] = mapped_column(unique=True)
-    email: Mapped[str] = mapped_column(unique=True)
-    username: Mapped[str] = mapped_column(unique=True)
-    password: Mapped[str]
+    first_name: Mapped[str] = mapped_column(nullable=False)
+    last_name: Mapped[str] = mapped_column(nullable=False)
+    phone: Mapped[str] = mapped_column(nullable=False, unique=True)
+    email: Mapped[str] = mapped_column(nullable=False, unique=True)
+    username: Mapped[str] = mapped_column(nullable=False, unique=True)
+    password: Mapped[str] = mapped_column(nullable=False)
     photo: Mapped[str]
     created_at: Mapped[datetime] = mapped_column(
-        init=False, server_default=func.now()
+        init=False, server_default=func.now(), nullable=False
     )
     updated_at: Mapped[datetime] = mapped_column(
         init=False, nullable=True, onupdate=func.now()
     )
 
-    # Funcionando
-    # sent_messages: Mapped[List["Message"]] = relationship(
-    #     "Message",
-    #     foreign_keys="Message.sender_id",
-    #     back_populates="sender"
-    # )
-    # received_messages: Mapped[List["Message"]] = relationship(
-    #     "Message",
-    #     foreign_keys="Message.receiver_id",
-    #     back_populates="receiver"
-    # )
-
-    # Back-populated relationships
-    # sent_messages: Mapped[list["Message"]] = relationship(
-    #     "Message", back_populates="sender", foreign_keys="Message.sender_id"
-    # )
-    # received_messages: Mapped[list["Message"]] = relationship(
-    #     "Message", back_populates="receiver", foreign_keys="Message.receiver_id"
-    # )
+    restaurant: Mapped['Restaurant'] = relationship(
+        "Restaurant", backref="user", cascade="all, delete-orphan", lazy='joined', init=False
+    )
 
     def dict(self):
         return {

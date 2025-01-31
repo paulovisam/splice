@@ -1,41 +1,76 @@
-from splice.core.entities.messages import Message
+import os
+import random
+
+from splice.core.entities.group import Group
+from splice.core.entities.restaurant import Restaurant
 from splice.core.entities.user import User
-from splice.infra.database import get_session
-from splice.infra.repositories.message_repository import MessageRepository
+from splice.infra.database import async_session, mongo_session
+from splice.infra.repositories.group_repository import GroupRepository
+from splice.infra.repositories.message_repository import (
+    MessageCreateSchema,
+    MessageRepository,
+)
+from splice.infra.repositories.restaurant_repository import (
+    RestaurantRepository,
+)
 from splice.infra.repositories.user_repository import UserRepository
 
 
 async def seed():
-    async with get_session() as session:
-        user_repo = UserRepository(session)
-        message_repo = MessageRepository(session)
+    # Drop tables
+    os.system('task alembic_down_up')
+    mongo_session.drop_collection('messages')
 
-        paulo = await user_repo.save(
-            User(
+    # Prepare data
+    paulo = User(
                 first_name='Paulo',
-                last_name='Teste',
+                last_name='Mendonca',
                 phone='010101',
                 email='paulo@email.com',
                 username='paulo',
                 password='123',
                 photo='my_photo',
             )
-        )
-        alice = await user_repo.save(
-            User(
+    alice = User(
                 first_name='Alice',
-                last_name='Teste',
+                last_name='Silva',
                 phone='020202',
                 email='alice@email.com',
                 username='alice',
                 password='123',
                 photo='my_photo',
             )
+
+    restaurant = Restaurant(
+            name='Restaurante do Paulo',
+            description='Restaurante do Paulo',
+            photo='Rua 1, 123',
+            user_id=paulo.id,
         )
 
+    group = Group(
+        name='Grupo do Paulo',
+        photo='link_photo',
+    )
+
+    # Postgres
+    user_repo = UserRepository(async_session)
+    await user_repo.save(paulo)
+    await user_repo.save(alice)
+    paulo = await user_repo.get_by_username(paulo.username)
+
+    restaurant_repo = RestaurantRepository(async_session)
+    await restaurant_repo.save(restaurant)
+
+    group_repo = GroupRepository(async_session)
+    await group_repo.save(group)
+
+    # Mongo
+    message_repo = MessageRepository(mongo_session=mongo_session)
+    for _ in range(10):
         await message_repo.save(
-            Message(
-                content='Olá, Alice!',
+            MessageCreateSchema(
+                content=f'Mensagem {random.randint(1, 100)}',
                 sender=paulo.username,
                 receiver=alice.username,
             )

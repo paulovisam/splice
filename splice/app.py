@@ -12,6 +12,9 @@ from splice.interface.routers.message_router import router as message_router
 from splice.interface.routers.notification_router import (
     router as notification_router,
 )
+from splice.interface.routers.restaurant_router import (
+    router as restaurant_router,
+)
 from splice.interface.routers.user_router import router as user_router
 from splice.interface.routers.ws_router import router as ws_router
 from splice.settings import settings
@@ -54,6 +57,7 @@ app.include_router(message_router)
 app.include_router(ws_router)
 app.include_router(group_router)
 app.include_router(notification_router)
+app.include_router(restaurant_router)
 
 
 app.add_exception_handler(ValueError, invalid_value)
