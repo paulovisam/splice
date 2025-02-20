@@ -33,16 +33,26 @@ class User:
         "Restaurant", backref="user", cascade="all, delete-orphan", lazy='joined', init=False
     )
 
-    def dict(self):
-        return {
+    groups: Mapped[list["Group"]] = relationship(
+        'Group',
+        secondary='user_groups',
+        back_populates='users',
+        default_factory=list,
+        lazy='joined'
+    )
+
+    def dict(self, include_groups=True):
+        user_dict = {
             'id': self.id,
             'first_name': self.first_name,
             'last_name': self.last_name,
             'phone': self.phone,
             'email': self.email,
             'username': self.username,
-            'password': self.password,
             'photo': self.photo,
             'created_at': self.created_at,
             'updated_at': self.updated_at,
         }
+        if include_groups:
+            user_dict['groups'] = [group.dict(include_users=False) for group in self.groups]
+        return user_dict

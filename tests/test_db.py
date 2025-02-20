@@ -4,7 +4,7 @@ import pytest
 from sqlalchemy import select
 
 from splice.core.entities.user import User
-from splice.infra.database import get_db
+from splice.infra.database import get_pg_session
 
 
 # Successfully creates and yields a database session
@@ -12,7 +12,7 @@ async def test_successful_session_creation(mocker):
     mock_session = mocker.patch(
         'splice.infra.database.async_session', autospec=True
     )
-    async with get_db() as session:
+    async with get_pg_session() as session:
         assert session == mock_session.return_value.__aenter__.return_value
 
 
@@ -23,7 +23,7 @@ async def test_exception_handling_during_session_creation(mocker):
     )
     mock_session.side_effect = Exception('Session creation failed')
     with pytest.raises(Exception, match='Session creation failed'):
-        async with get_db() as session:
+        async with get_pg_session() as session:
             pass
 
 

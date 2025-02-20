@@ -1,5 +1,5 @@
 from sqlalchemy.future import select
-from sqlalchemy.orm import Session
+from sqlalchemy.orm import Session, selectinload
 
 from splice.core.entities.user import User
 
@@ -21,8 +21,14 @@ class UserRepository:
 
     async def get_by_id(self, user_id: int) -> User | None:
         async with self.db_session() as session:
-            statement = select(User).filter_by(id=user_id)
-            return (await session.execute(statement)).scalar_one_or_none()
+            statement = (
+                select(User)
+                .options(selectinload(User.groups))
+                .filter_by(id=user_id)
+            )
+            user = (await session.execute(statement)).scalar_one_or_none()
+            user.groups
+            return user
 
     async def get_by_username(self, username: str) -> User | None:
         async with self.db_session() as session:

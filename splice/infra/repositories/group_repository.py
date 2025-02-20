@@ -1,7 +1,8 @@
 from sqlalchemy.future import select
-from sqlalchemy.orm import Session
+from sqlalchemy.orm import Session, selectinload
 
 from splice.core.entities.group import Group
+from splice.core.entities.user import User
 
 
 class GroupRepository:
@@ -21,7 +22,11 @@ class GroupRepository:
 
     async def get_by_id(self, group_id: int) -> Group | None:
         async with self.db_session() as session:
-            statement = select(Group).filter_by(id=group_id)
+            statement = (
+                select(Group)
+                .options(selectinload(User.groups))
+                .filter_by(id=group_id)
+            )
             return (await session.execute(statement)).scalar_one_or_none()
 
     async def delete(self, group_id: int) -> None:
