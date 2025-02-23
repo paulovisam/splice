@@ -23,8 +23,8 @@ class User(BaseTable, table=True):
     password: str = Field(nullable=False)
     photo: str = Field()
 
-    # TODO: retornar obj de restaurant serializado na resposta
-    restaurant: Optional["Restaurant"] = Relationship(
+    # TODO: retornar obj de establishment serializado na resposta
+    establishment: Optional["establishment"] = Relationship(
         back_populates="user", sa_relationship_kwargs={"lazy": "selectin"}
     )
 
@@ -39,7 +39,7 @@ UserCreateSchema = generate_schema(User)
 UserUpdateSchema = generate_schema(User, optional=True)
 
 # class UserResponse(User):
-#     restaurant: dict
+#     establishment: dict
 # model_config = ConfigDict(from_attributes=True)
 
 
@@ -53,7 +53,7 @@ UserUpdateSchema = generate_schema(User, optional=True)
 # print(UserUpdateSchema.model_fields)
 # print(UserUpdateSchema(id="", email="email.com"))
 
-# restaurant: Optional["Restaurant"]  = Relationship(
+# establishment: Optional["establishment"]  = Relationship(
 #     back_populates="user",
 #     sa_relationship_kwargs={"lazy": "selectin"}
 # )

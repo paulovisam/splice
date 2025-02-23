@@ -39,7 +39,7 @@ async def get_user(
 
     if not usuario:
         raise HTTPException(status_code=404, detail="Usuário não encontrado")
-    print(usuario.restaurant)
+    print(usuario.establishment)
     return usuario
 
 

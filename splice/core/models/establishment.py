@@ -8,8 +8,8 @@ from splice.utils.generate_schemas import generate_schema
 from .user import User
 
 
-class Restaurant(BaseTable, table=True):
-    __tablename__ = "restaurants"
+class establishment(BaseTable, table=True):
+    __tablename__ = "establishments"
 
     name: str = Field(nullable=False)
     description: str
@@ -18,7 +18,7 @@ class Restaurant(BaseTable, table=True):
     # Relação com a tabela 'users'
     user_id: uuid.UUID = Field(foreign_key="users.id")
     user: User = Relationship(
-        back_populates="restaurant", sa_relationship_kwargs={"lazy": "selectin"}
+        back_populates="establishment", sa_relationship_kwargs={"lazy": "selectin"}
     )
 
     # Serializar Relacionamentos
@@ -26,9 +26,9 @@ class Restaurant(BaseTable, table=True):
     #     from_attributes = True
 
 
-# class RestaurantResponse(Restaurant):
+# class establishmentResponse(establishment):
 #     user: User
 
 
-RestaurantCreateSchema = generate_schema(Restaurant)
-RestaurantUpdateSchema = generate_schema(Restaurant, optional=True)
+establishmentCreateSchema = generate_schema(establishment)
+establishmentUpdateSchema = generate_schema(establishment, optional=True)

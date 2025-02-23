@@ -3,14 +3,14 @@ from uuid import UUID
 from pydantic import BaseModel
 
 
-class RestaurantCreateSchema(BaseModel):
+class establishmentCreateSchema(BaseModel):
     user_id: str
     name: str
     description: str
     photo: str
 
 
-class RestaurantUpdateSchema(BaseModel):
+class establishmentUpdateSchema(BaseModel):
     id: str
     user_id: str = None
     name: str = None
@@ -18,7 +18,7 @@ class RestaurantUpdateSchema(BaseModel):
     photo: str = None
 
 
-class RestaurantResponseSchema(RestaurantCreateSchema):
+class establishmentResponseSchema(establishmentCreateSchema):
     id: UUID
     user_id: UUID
 

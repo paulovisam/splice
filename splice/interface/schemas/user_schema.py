@@ -3,7 +3,7 @@ from uuid import UUID
 
 from pydantic import BaseModel
 
-from .restaurant_schema import RestaurantResponseSchema
+from .establishment_schema import establishmentResponseSchema
 
 
 class UserCreateSchema(BaseModel):
@@ -35,7 +35,7 @@ class UserResponseSchema(BaseModel):
     phone: str
     email: str
     photo: str
-    restaurant: RestaurantResponseSchema
+    establishment: establishmentResponseSchema
 
     class Config:
         from_attributes = True
