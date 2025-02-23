@@ -4,11 +4,7 @@ from sqlalchemy.orm import Session
 
 from splice.infra.database import get_session
 from splice.infra.repositories.event_repository import EventRepository
-from splice.interface.schemas.event_schema import (
-    EventCreateSchema,
-    EventResponseSchema,
-    EventUpdateSchema,
-)
+from splice.core.models.event import Event, EventCreateSchema, EventUpdateSchema
 from splice.interface.service.event_service import EventService
 
 router = APIRouter(prefix='/events')
@@ -35,7 +31,7 @@ async def get_event(
     return event
 
 
-@router.post('', response_model=EventResponseSchema)
+@router.post('', response_model=Event)
 async def create_event(
     data: EventCreateSchema = Body(),
     db_session: Session = Depends(get_session),
@@ -56,7 +52,7 @@ async def create_event(
     return event
 
 
-@router.put('', response_model=EventResponseSchema)
+@router.put('', response_model=Event)
 async def update_event(
     data: EventUpdateSchema = Body(), db_session: Session = Depends(get_session)
 ):

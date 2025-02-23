@@ -1,4 +1,4 @@
-from splice.core.entities.event import Event
+from splice.core.models.event import Event
 from splice.infra.repositories.event_repository import EventRepository
 
 
