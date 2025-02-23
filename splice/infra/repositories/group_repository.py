@@ -1,8 +1,7 @@
 from sqlalchemy.future import select
 from sqlalchemy.orm import Session, selectinload
 
-from splice.core.entities.group import Group
-from splice.core.entities.user import User
+from splice.core.models.group import Group
 
 
 class GroupRepository:
@@ -10,29 +9,22 @@ class GroupRepository:
         self.db_session = db_session
 
     async def save(self, group: Group) -> Group:
-        async with self.db_session() as session:
-            if group.id is None:
-                # Inserir novo group
-                session.add(group)
-            else:
-                # Atualizar group existente
-                await session.merge(group)
-            await session.commit()
-            return group
+        if group.id is None:
+            # Inserir novo group
+            self.db_session.add(group)
+        else:
+            # Atualizar group existente
+            await self.db_session.merge(group)
+        await self.db_session.commit()
+        return group
 
     async def get_by_id(self, group_id: int) -> Group | None:
-        async with self.db_session() as session:
-            statement = (
-                select(Group)
-                .options(selectinload(User.groups))
-                .filter_by(id=group_id)
-            )
-            return (await session.execute(statement)).scalar_one_or_none()
+        statement = select(Group).filter_by(id=group_id)
+        return (await self.db_session.execute(statement)).scalar_one_or_none()
 
     async def delete(self, group_id: int) -> None:
-        async with self.db_session() as session:
-            statement = select(Group).filter_by(id=group_id)
-            group = (await session.execute(statement)).scalar_one_or_none()
+        statement = select(Group).filter_by(id=group_id)
+        group = (await self.db_session.execute(statement)).scalar_one_or_none()
         if group:
-            await session.delete(group)
-            await session.commit()
+            await self.db_session.delete(group)
+            await self.db_session.commit()

@@ -18,6 +18,8 @@ pytest-mock = "^3.14.0"
 async-generator = "^1.10"
 motor = "^3.6.0"
 redis = "^5.2.1"
+sqlmodel = "^0.0.22"
+aiosqlite = "^0.21.0"
 
 
 [tool.poetry.group.dev.dependencies]
@@ -52,6 +54,7 @@ run = 'fastapi dev splice/app.py'
 pre_test = 'task format'
 test = 'pytest -s -x --cov=splice -vv'
 post_test = 'coverage html'
+onlytest = 'pytest -s -x --cov=splice -vv'
 seed = 'python splice/scripts/seed.py'
 alembic_up = 'cd splice && alembic upgrade head'
 alembic_down = 'cd splice && alembic downgrade base'
