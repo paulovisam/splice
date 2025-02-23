@@ -1,5 +1,5 @@
 from sqlalchemy.future import select
-from sqlalchemy.orm import Session, selectinload
+from sqlalchemy.orm import Session
 
 from splice.core.models.user import User
 
