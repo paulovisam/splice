@@ -1,4 +1,4 @@
-from splice.core.entities.group import Group
+from splice.core.models.group import Group
 from splice.infra.repositories.group_repository import GroupRepository
 
 

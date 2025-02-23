@@ -1,4 +1,3 @@
-
 from fastapi import APIRouter, Depends, HTTPException
 from sqlalchemy.orm import Session
 
@@ -6,20 +5,20 @@ from splice.infra.database import get_pg_session
 from splice.infra.repositories.restaurant_repository import (
     RestaurantRepository,
 )
-from splice.interface.schemas.restaurant_schema import (
+from splice.core.models.restaurant import (
+    Restaurant,
     RestaurantCreateSchema,
-    RestaurantResponseSchema,
     RestaurantUpdateSchema,
 )
 from splice.interface.service.restaurant_service import RestaurantService
 
-router = APIRouter(prefix='/restaurant')
+router = APIRouter(prefix="/restaurant")
 
 
-@router.post('')
+@router.post("", response_model=Restaurant)
 async def create_restaurant(
-    data: RestaurantCreateSchema,
-    db: Session = Depends(get_pg_session)
+    data: RestaurantCreateSchema,  # type: ignore
+    db: Session = Depends(get_pg_session),
 ):
     repo = RestaurantRepository(db)
     service = RestaurantService(repo)
@@ -28,11 +27,11 @@ async def create_restaurant(
     return await service.create_restaurant(**data.model_dump())
 
 
-@router.get('', response_model=RestaurantResponseSchema)
+@router.get("", response_model=Restaurant)
 async def get_restaurant(
     restaurant_id: str = None,
     user_id: str = None,
-    db: Session = Depends(get_pg_session)
+    db: Session = Depends(get_pg_session),
 ):
     repo = RestaurantRepository(db)
     service = RestaurantService(repo)
@@ -41,29 +40,23 @@ async def get_restaurant(
     elif user_id:
         restaurant = await service.get_restaurant_by_user_id(user_id=user_id)
     else:
-        raise HTTPException(
-            status_code=400, detail='Query parameter required'
-        )
+        raise HTTPException(status_code=400, detail="Query parameter required")
     if not restaurant:
-        raise HTTPException(status_code=404, detail='Restaurant not found')
+        raise HTTPException(status_code=404, detail="Restaurant not found")
     return restaurant
 
 
-@router.put('')
+@router.put("")
 async def update_restaurant(
-    data: RestaurantUpdateSchema,
-    db: Session = Depends(get_pg_session)
+    data: RestaurantUpdateSchema, db: Session = Depends(get_pg_session)  # type: ignore
 ):
     repo = RestaurantRepository(db)
     service = RestaurantService(repo)
     return await service.update_restaurant(**data.model_dump())
 
 
-@router.delete('')
-async def delete_restaurant(
-    restaurant_id: str,
-    db: Session = Depends(get_pg_session)
-):
+@router.delete("")
+async def delete_restaurant(restaurant_id: str, db: Session = Depends(get_pg_session)):
     repo = RestaurantRepository(db)
     service = RestaurantService(repo)
     return await service.delete_restaurant(restaurant_id=restaurant_id)
