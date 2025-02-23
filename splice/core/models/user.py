@@ -1,7 +1,10 @@
-from splice.infra.database.base import BaseTable, Field
-from sqlmodel import Relationship
-from splice.utils.generate_schemas import generate_schema
 from typing import Optional
+
+from sqlmodel import Relationship
+
+from splice.infra.database.base import BaseTable, Field
+from splice.utils.generate_schemas import generate_schema
+
 from .linkusergroup import linkUserGroup
 
 # import uuid

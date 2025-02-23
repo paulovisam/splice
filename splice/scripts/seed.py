@@ -4,7 +4,7 @@ import random
 from splice.core.models.group import Group
 from splice.core.models.restaurant import Restaurant
 from splice.core.models.user import User
-from splice.infra.database import pg_session, mongo_session
+from splice.infra.database import mongo_session, pg_session
 from splice.infra.repositories.group_repository import GroupRepository
 from splice.infra.repositories.message_repository import (
     MessageCreateSchema,

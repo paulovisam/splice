@@ -1,10 +1,9 @@
-import uuid
 
-from sqlalchemy.dialects.postgresql import UUID
-from sqlalchemy.orm import Mapped, mapped_column
-from splice.infra.database.base import BaseTable, Field
 from sqlmodel import Relationship
+
+from splice.infra.database.base import BaseTable
 from splice.utils.generate_schemas import generate_schema as _generate_schema
+
 from .linkusergroup import linkUserGroup
 
 

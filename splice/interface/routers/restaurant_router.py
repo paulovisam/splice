@@ -1,14 +1,14 @@
 from fastapi import APIRouter, Depends, HTTPException
 from sqlalchemy.orm import Session
 
-from splice.infra.database import get_pg_session
-from splice.infra.repositories.restaurant_repository import (
-    RestaurantRepository,
-)
 from splice.core.models.restaurant import (
     Restaurant,
     RestaurantCreateSchema,
     RestaurantUpdateSchema,
+)
+from splice.infra.database import get_pg_session
+from splice.infra.repositories.restaurant_repository import (
+    RestaurantRepository,
 )
 from splice.interface.service.restaurant_service import RestaurantService
 

@@ -2,9 +2,13 @@ from fastapi import APIRouter, Body, Depends
 from fastapi.exceptions import HTTPException
 from sqlalchemy.orm import Session
 
+from splice.core.models.group import (
+    Group,
+    GroupCreateSchema,
+    GroupUpdateSchema,
+)
 from splice.infra.database import get_pg_session
 from splice.infra.repositories.group_repository import GroupRepository
-from splice.core.models.group import Group, GroupCreateSchema, GroupUpdateSchema
 
 # from splice.interface.schemas.group_schema import (
 #     GroupCreateSchema,

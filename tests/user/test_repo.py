@@ -1,6 +1,7 @@
+from sqlalchemy import select
+
 from splice.core.models.user import User
 from splice.infra.repositories.user_repository import UserRepository
-from sqlalchemy import select
 
 
 async def test_create_user(session):

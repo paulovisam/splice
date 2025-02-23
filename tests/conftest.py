@@ -5,13 +5,12 @@ from uuid import UUID
 import pytest
 from fastapi.testclient import TestClient
 from sqlalchemy import event
-from sqlalchemy.ext.asyncio import create_async_engine, AsyncSession
+from sqlalchemy.ext.asyncio import AsyncSession, create_async_engine
 from sqlalchemy.orm import sessionmaker
 from sqlmodel import SQLModel
 
 from splice.app import app
 from splice.infra.database.base import SQLModel
-from splice.infra.database import engine
 
 
 @pytest.fixture
@@ -33,7 +32,6 @@ async def session():
     async with engine.begin() as conn:
         await conn.run_sync(SQLModel.metadata.drop_all)
     await engine.dispose()
-
 
 
 @pytest.fixture

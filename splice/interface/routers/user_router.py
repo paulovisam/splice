@@ -2,14 +2,14 @@ from fastapi import APIRouter, Body, Depends
 from fastapi.exceptions import HTTPException
 from sqlalchemy.orm import Session
 
-from splice.infra.database import get_pg_session
-from splice.infra.repositories.user_repository import UserRepository
 from splice.core.models.user import (
     User,
     UserCreateSchema,
     UserUpdateSchema,
     # UserResponse,
 )
+from splice.infra.database import get_pg_session
+from splice.infra.repositories.user_repository import UserRepository
 from splice.interface.service.user_service import UserService
 
 router = APIRouter(prefix="/users")

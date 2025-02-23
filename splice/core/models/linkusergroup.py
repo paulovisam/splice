@@ -1,5 +1,6 @@
-from splice.infra.database.base import SQLModel, Field
 import uuid
+
+from splice.infra.database.base import Field, SQLModel
 
 
 class linkUserGroup(SQLModel, table=True):

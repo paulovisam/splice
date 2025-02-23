@@ -1,4 +1,4 @@
-from . import user
-from . import restaurant
-from . import group
-from . import linkusergroup
+from . import group as group
+from . import linkusergroup as linkusergroup
+from . import restaurant as restaurant
+from . import user as user
