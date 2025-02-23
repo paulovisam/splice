@@ -1,40 +1,65 @@
-# app/api/services/restaurant_service.py
-from splice.core.use_cases.restaurant.create_restaurant import CreateRestaurant
-from splice.core.use_cases.restaurant.delete_restaurant import DeleteRestaurant
-from splice.core.use_cases.restaurant.get_restaurant import GetRestaurant
-from splice.core.use_cases.restaurant.update_restaurant import UpdateRestaurant
-from splice.infra.repositories.restaurant_repository import RestaurantRepository
+from splice.core.use_cases.restaurant import (
+    CreateRestaurant,
+    DeleteRestaurant,
+    GetRestaurant,
+    UpdateRestaurant,
+)
+from splice.infra.repositories.restaurant_repository import (
+    RestaurantRepository,
+)
 
 
 class RestaurantService:
     def __init__(self, repo: RestaurantRepository):
         self.repo = repo
 
-    async def create(
+    async def create_restaurant(
         self,
-        id_user: str,
-        description: str,
         name: str,
-        category: str,
+        description: str,
         photo: str,
-
+        user_id: str
     ):
         use_case = CreateRestaurant(self.repo)
         return await use_case.execute(
-            id_user=id_user,
-            description=description,
             name=name,
-            category=category,
+            description=description,
             photo=photo,
+            user_id=user_id
         )
-    async def get_by_id(self, restaurant_id: int):
-        use_case = GetRestaurant(self.repo)
-        return await use_case.get_by_id(restaurant_id)
 
-    async def update(self, restaurant_id: int, **kwargs):
+    async def get_restaurant_by_id(
+        self,
+        restaurant_id: str,
+    ):
+        use_case = GetRestaurant(restaurant_repo=self.repo)
+        return await use_case.execute(restaurant_id=restaurant_id)
+
+    async def get_restaurant_by_user_id(
+        self,
+        user_id: str,
+    ):
+        use_case = GetRestaurant(restaurant_repo=self.repo)
+        return await use_case.execute(user_id=user_id)
+
+    async def update_restaurant(
+        self,
+        id: str,
+        user_id: str,
+        name: str,
+        description: str,
+        photo: str
+    ):
         use_case = UpdateRestaurant(self.repo)
-        return await use_case.execute(restaurant_id=restaurant_id, **kwargs)
+        return await use_case.execute(
+            restaurant_id=id,
+            user_id=user_id,
+            name=name,
+            description=description,
+            photo=photo
+        )
 
-    async def delete(self, restaurant_id: int):
+    async def delete_restaurant(self, restaurant_id: str):
         use_case = DeleteRestaurant(self.repo)
+
         return await use_case.execute(restaurant_id)

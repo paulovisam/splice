@@ -1,24 +1,26 @@
-# app/api/schemas/restaurant_schema.py
+from uuid import UUID
+
 from pydantic import BaseModel
 
 
 class RestaurantCreateSchema(BaseModel):
-    id_user: str
-    description: str
+    user_id: str
     name: str
-    category: str
+    description: str
     photo: str
+
 
 class RestaurantUpdateSchema(BaseModel):
     id: str
-    id_user: str = None
-    description: str = None
+    user_id: str = None
     name: str = None
-    category: str = None
+    description: str = None
     photo: str = None
 
+
 class RestaurantResponseSchema(RestaurantCreateSchema):
-    id: str
+    id: UUID
+    user_id: UUID
 
     class Config:
         from_attributes = True

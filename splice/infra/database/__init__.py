@@ -8,7 +8,7 @@ from sqlalchemy.orm import Session, sessionmaker
 from splice.settings import settings
 
 # Redis
-redis_session = redis.Redis(host='localhost', port=6379, db=0)
+redis_session = redis.Redis(host="localhost", port=6379, db=0)
 
 # MongoDB
 __mongo_client = AsyncIOMotorClient(settings.MONGO_URL)
@@ -21,19 +21,16 @@ async def get_mongo_session():
 
 # Sync
 # engine = create_engine(settings.DATABASE_URL)
-# def get_session():
+# def get_pg_session():
 #     with Session(engine) as session:
 #         yield session
 
 # Async
-engine = create_async_engine(settings.DATABASE_URL, echo=True)
-
-async_session = sessionmaker(
-    bind=engine, class_=AsyncSession, expire_on_commit=False
-)
+engine = create_async_engine(settings.DATABASE_URL)
+pg_session = sessionmaker(bind=engine, class_=AsyncSession, expire_on_commit=False)
 
 
-async def get_session():
-    return async_session
-    # async with async_session() as session:
-    #         yield session
+async def get_pg_session():
+    # return pg_session
+    async with pg_session() as session:
+        yield session

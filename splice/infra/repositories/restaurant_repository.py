@@ -1,7 +1,7 @@
 from sqlalchemy.future import select
 from sqlalchemy.orm import Session
 
-from splice.core.entities.restaurant import Restaurant
+from splice.core.models.restaurant import Restaurant
 
 
 class RestaurantRepository:
@@ -9,33 +9,24 @@ class RestaurantRepository:
         self.db_session = db_session
 
     async def save(self, restaurant: Restaurant) -> Restaurant:
-        print("save restaurant ",restaurant.dict());
-        from uuid import uuid4
-        restaurant.id = str(uuid4())
+        if restaurant.id is None:
+            self.db_session.add(restaurant)
+        else:
+            await self.db_session.merge(restaurant)
+        await self.db_session.commit()
         return restaurant
-        # async with self.db_session() as session:
-        #     if restaurant.id is None:
-        #         # Inserir novo
-        #         session.add(restaurant)
-        #     else:
-        #         # Atualizar existente
-        #         await session.merge(restaurant)
-        #     await session.commit()
-        #     return restaurant
 
     async def get_by_id(self, restaurant_id: int) -> Restaurant | None:
-        print("get restaurant "+restaurant_id);
-        restaurant = Restaurant("user","description","resturante do ze","NONE","")
-        return restaurant
-        # async with self.db_session() as session:
-        #     statement = select(Restaurant).filter_by(id=restaurant_id)
-        #     return (await session.execute(statement)).scalar_one_or_none()
+        statement = select(Restaurant).filter_by(id=restaurant_id)
+        return (await self.db_session.execute(statement)).scalar_one_or_none()
+
+    async def get_by_user_id(self, user_id: int) -> Restaurant | None:
+        statement = select(Restaurant).filter_by(user_id=user_id)
+        return (await self.db_session.execute(statement)).scalar_one_or_none()
 
     async def delete(self, restaurant_id: int) -> None:
-        print("delete restaurant "+restaurant_id);
-        # async with self.db_session() as session:
-        #     statement = select(Restaurant).filter_by(id=restaurant_id)
-        #     restaurant = (await session.execute(statement)).scalar_one_or_none()
-        # if restaurant:
-        #     await session.delete(restaurant)
-        #     await session.commit()
+        statement = select(Restaurant).filter_by(id=restaurant_id)
+        restaurant = (await self.db_session.execute(statement)).scalar_one_or_none()
+        if restaurant:
+            await self.db_session.delete(restaurant)
+            await self.db_session.commit()

@@ -1,73 +1,62 @@
-from fastapi import APIRouter, Body, Depends
-from fastapi.exceptions import HTTPException
+from fastapi import APIRouter, Depends, HTTPException
 from sqlalchemy.orm import Session
 
-from splice.infra.database import get_session
-from splice.infra.repositories.restaurant_repository import RestaurantRepository
-from splice.interface.schemas.restaurant_schema import (
+from splice.infra.database import get_pg_session
+from splice.infra.repositories.restaurant_repository import (
+    RestaurantRepository,
+)
+from splice.core.models.restaurant import (
+    Restaurant,
     RestaurantCreateSchema,
-    RestaurantResponseSchema,
     RestaurantUpdateSchema,
 )
 from splice.interface.service.restaurant_service import RestaurantService
 
-router = APIRouter(prefix='/restaurants')
+router = APIRouter(prefix="/restaurant")
 
 
-@router.get('')
-async def get(
+@router.post("", response_model=Restaurant)
+async def create_restaurant(
+    data: RestaurantCreateSchema,  # type: ignore
+    db: Session = Depends(get_pg_session),
+):
+    repo = RestaurantRepository(db)
+    service = RestaurantService(repo)
+    print(data.model_dump())
+    print(type(data.model_dump()))
+    return await service.create_restaurant(**data.model_dump())
+
+
+@router.get("", response_model=Restaurant)
+async def get_restaurant(
     restaurant_id: str = None,
-    db_session: Session = Depends(get_session),
+    user_id: str = None,
+    db: Session = Depends(get_pg_session),
 ):
-    repo = RestaurantRepository(db_session)
+    repo = RestaurantRepository(db)
     service = RestaurantService(repo)
-
     if restaurant_id:
-        restaurant = await service.get_by_id(restaurant_id)
+        restaurant = await service.get_restaurant_by_id(restaurant_id=restaurant_id)
+    elif user_id:
+        restaurant = await service.get_restaurant_by_user_id(user_id=user_id)
     else:
-        raise HTTPException(
-            status_code=400, detail='Parâmetro de consulta necessário'
-        )
-
+        raise HTTPException(status_code=400, detail="Query parameter required")
     if not restaurant:
-        raise HTTPException(status_code=404, detail='Restaurant não encontrado')
-
+        raise HTTPException(status_code=404, detail="Restaurant not found")
     return restaurant
 
 
-@router.post('', response_model=RestaurantResponseSchema)
-async def create(
-    data: RestaurantCreateSchema = Body(),
-    db_session: Session = Depends(get_session),
+@router.put("")
+async def update_restaurant(
+    data: RestaurantUpdateSchema, db: Session = Depends(get_pg_session)  # type: ignore
 ):
-    repo = RestaurantRepository(db_session)
+    repo = RestaurantRepository(db)
     service = RestaurantService(repo)
-    restaurant = await service.create(
-        id_user=data.id_user,
-        description=data.description,
-        name=data.name,
-        category=data.category,
-        photo=data.photo,
-    )
-    return restaurant
+    return await service.update_restaurant(**data.model_dump())
 
 
-@router.put('', response_model=RestaurantResponseSchema)
-async def update(
-    data: RestaurantUpdateSchema = Body(), db_session: Session = Depends(get_session)
-):
-    repo = RestaurantRepository(db_session)
+@router.delete("")
+async def delete_restaurant(restaurant_id: str, db: Session = Depends(get_pg_session)):
+    repo = RestaurantRepository(db)
     service = RestaurantService(repo)
-
-    # Converte o body em dicionário, removendo campos nulos
-    update_data = data.model_dump(exclude_unset=True)
-
-    # Passa os dados descompactados para a função de atualização
-    return await service.update(restaurant_id=data.id, **update_data)
-
-
-@router.delete('')
-async def delete(restaurant_id: str, db_session=Depends(get_session)):
-    repo = RestaurantRepository(db_session)
-    service = RestaurantService(repo)
-    return await service.delete(restaurant_id)
+    return await service.delete_restaurant(restaurant_id=restaurant_id)

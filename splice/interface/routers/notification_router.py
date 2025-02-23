@@ -2,7 +2,7 @@
 from fastapi import APIRouter, Depends
 from sqlalchemy.orm import Session
 
-from splice.infra.database import get_mongo_session, get_session
+from splice.infra.database import get_mongo_session, get_pg_session
 from splice.infra.repositories.message_repository import MessageRepository
 from splice.infra.repositories.notification_repository import (
     NotificationRepository,
@@ -21,7 +21,7 @@ router = APIRouter(prefix='/notifications')
 async def create_notification(
     data: NotificationCreateSchema,
     mongo_db: Session = Depends(get_mongo_session),
-    postgress_db: Session = Depends(get_session)
+    postgress_db: Session = Depends(get_pg_session)
 ):
     notification_repository = NotificationRepository(mongo_session=mongo_db)
     user_repositor = UserRepository(db_session=postgress_db)
@@ -41,7 +41,7 @@ async def create_notification(
 async def get_notification(
     notification_id: str = None,
     mongo_db: Session = Depends(get_mongo_session),
-    postgress_db: Session = Depends(get_session)
+    postgress_db: Session = Depends(get_pg_session)
 ):
     notification_repository = NotificationRepository(mongo_session=mongo_db)
     user_repositor = UserRepository(db_session=postgress_db)
@@ -57,7 +57,7 @@ async def get_notification(
 async def delete_notification(
     notification_id: str = None,
     mongo_db: Session = Depends(get_mongo_session),
-    postgress_db: Session = Depends(get_session)
+    postgress_db: Session = Depends(get_pg_session)
 ):
     notification_repository = NotificationRepository(mongo_session=mongo_db)
     user_repositor = UserRepository(db_session=postgress_db)
