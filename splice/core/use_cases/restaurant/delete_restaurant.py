@@ -1,4 +1,6 @@
-from splice.infra.repositories.restaurant_repository import RestaurantRepository
+from splice.infra.repositories.restaurant_repository import (
+    RestaurantRepository,
+)
 
 
 class DeleteRestaurant:

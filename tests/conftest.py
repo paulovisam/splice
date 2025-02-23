@@ -4,11 +4,13 @@ from uuid import UUID
 
 import pytest
 from fastapi.testclient import TestClient
-from sqlalchemy import create_engine, event
-from sqlalchemy.orm import Session
+from sqlalchemy import event
+from sqlalchemy.ext.asyncio import AsyncSession, create_async_engine
+from sqlalchemy.orm import sessionmaker
+from sqlmodel import SQLModel
 
 from splice.app import app
-from splice.core.entities.user import table_registry
+from splice.infra.database.base import SQLModel
 
 
 @pytest.fixture
@@ -17,14 +19,19 @@ def client():
 
 
 @pytest.fixture
-def session():
-    engine = create_engine('sqlite:///:memory:')
-    table_registry.metadata.create_all(engine)
+async def session():
+    engine = create_async_engine("sqlite+aiosqlite:///:memory:")
+    async with engine.begin() as conn:
+        await conn.run_sync(SQLModel.metadata.create_all)
 
-    with Session(engine) as session:
+    async_session = sessionmaker(engine, class_=AsyncSession, expire_on_commit=False)
+    # yield async_session
+    async with async_session() as session:
         yield session
 
-    table_registry.metadata.drop_all(engine)
+    async with engine.begin() as conn:
+        await conn.run_sync(SQLModel.metadata.drop_all)
+    await engine.dispose()
 
 
 @pytest.fixture

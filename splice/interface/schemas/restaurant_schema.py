@@ -1,5 +1,7 @@
-from pydantic import BaseModel
 from uuid import UUID
+
+from pydantic import BaseModel
+
 
 class RestaurantCreateSchema(BaseModel):
     user_id: str
@@ -7,12 +9,14 @@ class RestaurantCreateSchema(BaseModel):
     description: str
     photo: str
 
+
 class RestaurantUpdateSchema(BaseModel):
     id: str
     user_id: str = None
     name: str = None
     description: str = None
     photo: str = None
+
 
 class RestaurantResponseSchema(RestaurantCreateSchema):
     id: UUID

@@ -1,12 +1,15 @@
-from splice.infra.repositories.restaurant_repository import RestaurantRepository
-from splice.core.entities.restaurant import Restaurant
+from splice.core.models.restaurant import Restaurant
+from splice.infra.repositories.restaurant_repository import (
+    RestaurantRepository,
+)
+
+
 class GetRestaurant:
     def __init__(self, restaurant_repo: RestaurantRepository):
         self.repo = restaurant_repo
 
-
     async def execute(
-        self, 
+        self,
         restaurant_id: str = None,
         user_id: str = None,
     ) -> Restaurant | None:
