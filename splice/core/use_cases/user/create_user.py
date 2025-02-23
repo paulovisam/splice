@@ -1,4 +1,4 @@
-from splice.core.entities.user import User
+from splice.core.models.user import User
 from splice.infra.repositories.user_repository import UserRepository
 
 

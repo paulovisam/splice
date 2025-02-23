@@ -1,10 +1,10 @@
 import os
 import random
 
-from splice.core.entities.group import Group
-from splice.core.entities.restaurant import Restaurant
-from splice.core.entities.user import User
-from splice.infra.database import async_session, mongo_session
+from splice.core.models.group import Group
+from splice.core.models.restaurant import Restaurant
+from splice.core.models.user import User
+from splice.infra.database import pg_session, mongo_session
 from splice.infra.repositories.group_repository import GroupRepository
 from splice.infra.repositories.message_repository import (
     MessageCreateSchema,
@@ -54,15 +54,15 @@ async def seed():
     )
 
     # Postgres
-    user_repo = UserRepository(async_session)
+    user_repo = UserRepository(pg_session)
     await user_repo.save(paulo)
     await user_repo.save(alice)
     paulo = await user_repo.get_by_username(paulo.username)
 
-    restaurant_repo = RestaurantRepository(async_session)
+    restaurant_repo = RestaurantRepository(pg_session)
     await restaurant_repo.save(restaurant)
 
-    group_repo = GroupRepository(async_session)
+    group_repo = GroupRepository(pg_session)
     await group_repo.save(group)
 
     # Mongo
