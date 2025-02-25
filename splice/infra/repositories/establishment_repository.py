@@ -1,14 +1,14 @@
 from sqlalchemy.future import select
 from sqlalchemy.orm import Session
 
-from splice.core.models.establishment import establishment
+from splice.core.models.establishment import Establishment
 
 
-class establishmentRepository:
+class EstablishmentRepository:
     def __init__(self, db_session: Session):
         self.db_session = db_session
 
-    async def save(self, establishment: establishment) -> establishment:
+    async def save(self, establishment: Establishment) -> Establishment:
         if establishment.id is None:
             self.db_session.add(establishment)
         else:
@@ -16,12 +16,12 @@ class establishmentRepository:
         await self.db_session.commit()
         return establishment
 
-    async def get_by_id(self, establishment_id: int) -> establishment | None:
-        statement = select(establishment).filter_by(id=establishment_id)
+    async def get_by_id(self, establishment_id: int) -> Establishment | None:
+        statement = select(Establishment).filter_by(id=establishment_id)
         return (await self.db_session.execute(statement)).scalar_one_or_none()
 
-    async def get_by_user_id(self, user_id: int) -> establishment | None:
-        statement = select(establishment).filter_by(user_id=user_id)
+    async def get_by_user_id(self, user_id: int) -> Establishment | None:
+        statement = select(Establishment).filter_by(user_id=user_id)
         return (await self.db_session.execute(statement)).scalar_one_or_none()
 
     async def delete(self, establishment_id: int) -> None:

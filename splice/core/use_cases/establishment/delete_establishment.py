@@ -1,10 +1,10 @@
 from splice.infra.repositories.establishment_repository import (
-    establishmentRepository,
+    EstablishmentRepository,
 )
 
 
-class Deleteestablishment:
-    def __init__(self, repo: establishmentRepository):
+class DeleteEstablishment:
+    def __init__(self, repo: EstablishmentRepository):
         self.repo = repo
 
     async def execute(self, establishment_id: int):

@@ -1,18 +1,18 @@
-from splice.core.models.establishment import establishment
+from splice.core.models.establishment import Establishment
 from splice.infra.repositories.establishment_repository import (
-    establishmentRepository,
+    EstablishmentRepository,
 )
 
 
-class Getestablishment:
-    def __init__(self, establishment_repo: establishmentRepository):
+class GetEstablishment:
+    def __init__(self, establishment_repo: EstablishmentRepository):
         self.repo = establishment_repo
 
     async def execute(
         self,
         establishment_id: str = None,
         user_id: str = None,
-    ) -> establishment | None:
+    ) -> Establishment | None:
         if establishment_id:
             return await self.repo.get_by_id(establishment_id=establishment_id)
         if user_id:

@@ -6,9 +6,10 @@ from splice.infra.database.base import BaseTable, Field
 from splice.utils.generate_schemas import generate_schema
 
 from .user import User
+from typing import Optional
 
 
-class establishment(BaseTable, table=True):
+class Establishment(BaseTable, table=True):
     __tablename__ = "establishments"
 
     name: str = Field(nullable=False)
@@ -21,6 +22,9 @@ class establishment(BaseTable, table=True):
         back_populates="establishment", sa_relationship_kwargs={"lazy": "selectin"}
     )
 
+    orders: Optional["order"] = Relationship(
+        back_populates="establishment", sa_relationship_kwargs={"lazy": "selectin"}
+    )
     # Serializar Relacionamentos
     # class Config:
     #     from_attributes = True
@@ -30,5 +34,5 @@ class establishment(BaseTable, table=True):
 #     user: User
 
 
-establishmentCreateSchema = generate_schema(establishment)
-establishmentUpdateSchema = generate_schema(establishment, optional=True)
+EstablishmentCreateSchema = generate_schema(Establishment)
+EstablishmentUpdateSchema = generate_schema(Establishment, optional=True)

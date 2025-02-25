@@ -1,10 +1,10 @@
 from splice.infra.repositories.establishment_repository import (
-    establishmentRepository,
+    EstablishmentRepository,
 )
 
 
-class Updateestablishment:
-    def __init__(self, establishment_repo: establishmentRepository):
+class UpdateEstablishment:
+    def __init__(self, establishment_repo: EstablishmentRepository):
         self.repo = establishment_repo
 
     async def execute(self, establishment_id: str, **kwargs):
