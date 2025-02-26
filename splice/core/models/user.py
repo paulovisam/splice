@@ -13,7 +13,7 @@ from .linkusergroup import linkUserGroup
 
 
 class User(BaseTable, table=True):
-    __tablename__ = "users"
+    __tablename__ = 'users'
 
     first_name: str = Field(nullable=False)
     last_name: str = Field(nullable=False)
@@ -24,18 +24,18 @@ class User(BaseTable, table=True):
     photo: str = Field()
 
     # TODO: retornar obj de establishment serializado na resposta
-    establishment: Optional["Establishment"] = Relationship(
-        back_populates="user", sa_relationship_kwargs={"lazy": "selectin"}
+    establishment: Optional['Establishment'] = Relationship(  # type: ignore #noqa: F821
+        back_populates='user', sa_relationship_kwargs={'lazy': 'selectin'}
     )
 
-    groups: Optional[list["Group"]] = Relationship(
-        back_populates="users",
+    groups: Optional[list['Group']] = Relationship(  # type: ignore #noqa: F821
+        back_populates='users',
         link_model=linkUserGroup,
-        sa_relationship_kwargs={"lazy": "selectin"},
+        sa_relationship_kwargs={'lazy': 'selectin'},
     )
 
-    orders: Optional["Order"] = Relationship(
-        back_populates="user", sa_relationship_kwargs={"lazy": "selectin"}
+    orders: Optional['Order'] = Relationship(  # type: ignore #noqa: F821
+        back_populates='user', sa_relationship_kwargs={'lazy': 'selectin'}
     )
 
 

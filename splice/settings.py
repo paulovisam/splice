@@ -7,7 +7,9 @@ class Settings(BaseSettings):
     )
 
     # Database
-    DATABASE_URL: str = 'postgresql+asyncpg://postgres:root@localhost:5432/splice'
+    DATABASE_URL: str = (
+        'postgresql+asyncpg://postgres:root@localhost:5432/splice'
+    )
     DATABASE_URL_TEST: str = 'postgres'
     MONGO_DB_NAME: str = 'splice'
     MONGO_URL: str = 'mongodb://localhost:27017/splice'

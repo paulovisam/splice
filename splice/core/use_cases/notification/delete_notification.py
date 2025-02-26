@@ -8,4 +8,6 @@ class DeleteNotification:
         self.notification_repository = notification_repository
 
     async def execute(self, notification_id: str):
-        return await self.notification_repository.delete(notification_id=notification_id)
+        return await self.notification_repository.delete(
+            notification_id=notification_id
+        )

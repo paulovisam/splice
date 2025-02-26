@@ -1,8 +1,10 @@
 # app/api/services/user_service.py
-from splice.core.use_cases.user.create_user import CreateUser
-from splice.core.use_cases.user.delete_user import DeleteUser
-from splice.core.use_cases.user.get_user import GetUser
-from splice.core.use_cases.user.update_user import UpdateUser
+from splice.core.use_cases.user import (
+    CreateUser,
+    DeleteUser,
+    GetUser,
+    UpdateUser,
+)
 from splice.infra.repositories.user_repository import UserRepository
 
 
@@ -10,26 +12,9 @@ class UserService:
     def __init__(self, repo: UserRepository):
         self.repo = repo
 
-    async def create_user(
-        self,
-        first_name: str,
-        last_name: str,
-        phone: str,
-        email: str,
-        username: str,
-        password: str,
-        photo: str,
-    ):
+    async def create_user(self, **kwargs):
         use_case = CreateUser(self.repo)
-        return await use_case.execute(
-            first_name=first_name,
-            last_name=last_name,
-            phone=phone,
-            email=email,
-            username=username,
-            password=password,
-            photo=photo,
-        )
+        return await use_case.execute(**kwargs)
 
     async def get_user_by_id(self, user_id: int):
         use_case = GetUser(self.repo)

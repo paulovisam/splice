@@ -18,7 +18,9 @@ class MessageRepository:
     async def save(self, data: MessageCreateSchema) -> MessageResponseSchema:
         try:
             result = await self.collection.insert_one(data.model_dump())
-            return MessageResponseSchema(id=str(result.inserted_id), **data.model_dump())
+            return MessageResponseSchema(
+                id=str(result.inserted_id), **data.model_dump()
+            )
         except (ValueError, TypeError) as e:
             raise e
         except errors.PyMongoError as e:
@@ -50,7 +52,9 @@ class MessageRepository:
         Busca mensagens enviadas por um determinado usuário.
         """
         try:
-            messages = self.collection.find({'sender': sender_username}).to_list()
+            messages = self.collection.find({
+                'sender': sender_username
+            }).to_list()
             return [
                 MessageResponseSchema(**{**msg, 'id': str(msg['_id'])})
                 async for msg in messages
@@ -76,7 +80,7 @@ class MessageRepository:
             ]
         except errors.PyMongoError as e:
             raise Exception(
-                f'Erro ao buscar mensagens recebidas por {receiver_username}: {e}'
+                f'Erro ao buscar mensagens recebidas por {receiver_username}: {e}'  # noqa: E501
             )
 
     async def update(self, message_id: str, new_content: str) -> bool:

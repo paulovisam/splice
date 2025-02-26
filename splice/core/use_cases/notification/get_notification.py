@@ -8,4 +8,6 @@ class GetNotification:
         self.notification_repository = notification_repository
 
     async def execute(self, notificaion_id: str):
-        return await self.notification_repository.get_by_id(notification_id=notificaion_id)
+        return await self.notification_repository.get_by_id(
+            notification_id=notificaion_id
+        )

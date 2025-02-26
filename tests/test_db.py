@@ -1,15 +1,17 @@
-
-
 # Successfully creates and yields a database session
 # async def test_successful_session_creation(mocker):
-#     mock_session = mocker.patch("splice.infra.database.async_session", autospec=True)
+#     mock_session = mocker.patch(
+#         "splice.infra.database.async_session", autospec=True
+#     )
 #     async with pg_session() as session:
 #         assert session == mock_session.return_value.__aenter__.return_value
 
 
-# # Handles exceptions during session creation
+# Handles exceptions during session creation
 # async def test_exception_handling_during_session_creation(mocker):
-#     mock_session = mocker.patch("splice.infra.database.async_session", autospec=True)
+#     mock_session = mocker.patch(
+#         "splice.infra.database.async_session", autospec=True
+#     )
 #     mock_session.side_effect = Exception("Session creation failed")
 #     with pytest.raises(Exception, match="Session creation failed"):
 #         async with pg_session() as session:

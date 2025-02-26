@@ -24,7 +24,9 @@ class EstablishmentRepository:
 
     async def delete(self, establishment_id: int) -> None:
         statement = select(Establishment).filter_by(id=establishment_id)
-        establishment = (await self.db_session.execute(statement)).scalar_one_or_none()
+        establishment = (
+            await self.db_session.execute(statement)
+        ).scalar_one_or_none()
         if establishment:
             await self.db_session.delete(establishment)
             await self.db_session.commit()

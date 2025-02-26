@@ -16,11 +16,13 @@ async def websocket_endpoint(websocket: WebSocket):
         await websocket.close()
 
 
-@router.websocket("/ws/{chat_id}")
-async def websocket_endpoint(websocket: WebSocket, chat_id: str):
+@router.websocket('/ws/{chat_id}')
+async def websocket_endpoint_chat_id(websocket: WebSocket, chat_id: str):
     service = WSService()
 
     if chat_id is None:
-        await websocket.close(code=4000, reason="chat_id não fornecido na query")
+        await websocket.close(
+            code=4000, reason='chat_id não fornecido na query'
+        )
         return
     await service.handle_client(websocket, chat_id)

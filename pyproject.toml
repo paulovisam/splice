@@ -31,7 +31,7 @@ fakeredis = "^2.26.1"
 
 [tool.ruff]
 line-length = 79
-extend-exclude = ['migrations']
+extend-exclude = ['migrations', 'labs*']
 
 [tool.ruff.lint]
 preview = true

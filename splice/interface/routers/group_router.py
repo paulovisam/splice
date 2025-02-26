@@ -9,18 +9,12 @@ from splice.core.models.group import (
 )
 from splice.infra.database import get_pg_session
 from splice.infra.repositories.group_repository import GroupRepository
-
-# from splice.interface.schemas.group_schema import (
-#     GroupCreateSchema,
-#     GroupResponseSchema,
-#     GroupUpdateSchema,
-# )
 from splice.interface.service.group_service import GroupService
 
-router = APIRouter(prefix="/groups")
+router = APIRouter(prefix='/groups')
 
 
-@router.get("", response_model=Group)
+@router.get('', response_model=Group)
 async def get_group(
     group_id: str = None, db_session: Session = Depends(get_pg_session)
 ):
@@ -30,17 +24,19 @@ async def get_group(
     if group_id:
         group = await service.get_by_id(group_id)
     else:
-        raise HTTPException(status_code=400, detail="Parâmetro de consulta necessário")
+        raise HTTPException(
+            status_code=400, detail='Parâmetro de consulta necessário'
+        )
 
     if not group:
-        raise HTTPException(status_code=404, detail="Grupo não encontrado")
+        raise HTTPException(status_code=404, detail='Grupo não encontrado')
 
     return group
 
 
-@router.post("", response_model=Group)
+@router.post('', response_model=Group)
 async def post_group(
-    data: GroupCreateSchema = Body(),
+    data: GroupCreateSchema = Body(),  # type: ignore
     db_session: Session = Depends(get_pg_session),
 ):
     repo = GroupRepository(db_session)
@@ -52,9 +48,10 @@ async def post_group(
     return group
 
 
-@router.put("", response_model=Group)
+@router.put('', response_model=Group)
 async def update_group(
-    data: GroupUpdateSchema = Body(), db_session: Session = Depends(get_pg_session)
+    data: GroupUpdateSchema = Body(),  # type: ignore
+    db_session: Session = Depends(get_pg_session),
 ):
     repo = GroupRepository(db_session)
     service = GroupService(repo)
@@ -66,7 +63,7 @@ async def update_group(
     return await service.update_group(group_id=data.id, **update_data)
 
 
-@router.delete("")
+@router.delete('')
 async def delete_group(group_id: str, db_session=Depends(get_pg_session)):
     repo = GroupRepository(db_session)
     service = GroupService(repo)

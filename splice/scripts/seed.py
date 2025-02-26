@@ -3,6 +3,7 @@ import random
 
 from splice.infra.database import mongo_session, pg_session
 from splice.infra.repositories.establishment_repository import (
+    Establishment,
     EstablishmentRepository,
 )
 from splice.infra.repositories.group_repository import Group, GroupRepository
@@ -38,17 +39,14 @@ async def seed():
         photo='my_photo',
     )
 
-    establishment = establishment(
+    establishment = Establishment(
         name='establishmente do Paulo',
         description='establishmente do Paulo',
         photo='Rua 1, 123',
         user_id=paulo.id,
     )
 
-    group = Group(
-        name='Grupo do Paulo',
-        photo='link_photo',
-    )
+    group = Group(name='Grupo do Paulo', photo='link_photo')
 
     # Postgres
     user_repo = UserRepository(pg_session)

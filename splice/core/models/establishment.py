@@ -10,20 +10,22 @@ from .user import User
 
 
 class Establishment(BaseTable, table=True):
-    __tablename__ = "establishments"
+    __tablename__ = 'establishments'
 
     name: str = Field(nullable=False)
     description: str
     photo: str
 
     # Relação com a tabela 'users'
-    user_id: uuid.UUID = Field(foreign_key="users.id")
+    user_id: uuid.UUID = Field(foreign_key='users.id')
     user: User = Relationship(
-        back_populates="establishment", sa_relationship_kwargs={"lazy": "selectin"}
+        back_populates='establishment',
+        sa_relationship_kwargs={'lazy': 'selectin'},
     )
 
-    orders: Optional["Order"] = Relationship(
-        back_populates="establishment", sa_relationship_kwargs={"lazy": "selectin"}
+    orders: Optional['Order'] = Relationship(  # type: ignore #noqa: F821
+        back_populates='establishment',
+        sa_relationship_kwargs={'lazy': 'selectin'},
     )
     # Serializar Relacionamentos
     # class Config:

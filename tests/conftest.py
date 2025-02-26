@@ -7,10 +7,19 @@ from fastapi.testclient import TestClient
 from sqlalchemy import event
 from sqlalchemy.ext.asyncio import AsyncSession, create_async_engine
 from sqlalchemy.orm import sessionmaker
-from sqlmodel import SQLModel
 
 from splice.app import app
+from splice.core.models.order import PaymentType
 from splice.infra.database.base import SQLModel
+from splice.infra.repositories.establishment_repository import (
+    Establishment,
+    EstablishmentRepository,
+)
+from splice.infra.repositories.order_repository import (
+    Order,
+    OrderRepository,
+)
+from splice.infra.repositories.user_repository import User, UserRepository
 
 
 @pytest.fixture
@@ -20,11 +29,13 @@ def client():
 
 @pytest.fixture
 async def session():
-    engine = create_async_engine("sqlite+aiosqlite:///:memory:")
+    engine = create_async_engine('sqlite+aiosqlite:///:memory:')
     async with engine.begin() as conn:
         await conn.run_sync(SQLModel.metadata.create_all)
 
-    async_session = sessionmaker(engine, class_=AsyncSession, expire_on_commit=False)
+    async_session = sessionmaker(
+        engine, class_=AsyncSession, expire_on_commit=False
+    )
     # yield async_session
     async with async_session() as session:
         yield session
@@ -35,8 +46,6 @@ async def session():
 
 @pytest.fixture
 async def user(session):
-    from splice.infra.repositories.user_repository import User, UserRepository
-
     return await UserRepository(session).save(
         User(
             first_name='paulo',
@@ -52,15 +61,10 @@ async def user(session):
 
 @pytest.fixture
 async def establishment(session, user):
-    from splice.infra.repositories.establishment_repository import (
-        Establishment,
-        EstablishmentRepository,
-    )
-
     return await EstablishmentRepository(session).save(
         Establishment(
-            name="Restaurante do Zeca",
-            description="Sabor e Tradição",
+            name='Restaurante do Zeca',
+            description='Sabor e Tradição',
             photo='url_photo',
             user_id=user.id,
         )
@@ -69,12 +73,6 @@ async def establishment(session, user):
 
 @pytest.fixture
 async def order(session, user, establishment):
-    from splice.infra.repositories.order_repository import (
-        Order,
-        OrderRepository,
-    )
-    from splice.core.models.order import PaymentType
-
     return await OrderRepository(session).save(
         Order(
             value=100.0,

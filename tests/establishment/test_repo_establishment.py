@@ -14,15 +14,17 @@ async def test_save_new_establishment_success(session, user):
     repo = EstablishmentRepository(db_session=session)
 
     establishment = Establishment(
-        name="Restaurante do Zeca",
-        description="uma descrição",
+        name='Restaurante do Zeca',
+        description='uma descrição',
         photo='url_photo',
         user_id=user.id,
     )
     await repo.save(establishment)
 
     res = await session.scalar(
-        select(Establishment).where(Establishment.name == "Restaurante do Zeca")
+        select(Establishment).where(
+            Establishment.name == 'Restaurante do Zeca'
+        )
     )
     assert res
     assert res == establishment
@@ -33,7 +35,7 @@ async def test_save_establishment_missing_required_fields(session, user):
     repo = EstablishmentRepository(db_session=session)
 
     establishment = Establishment(
-        description="uma descrição",
+        description='uma descrição',
         photo='url_photo',
         user_id=user.id,
     )

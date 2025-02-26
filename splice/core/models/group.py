@@ -1,4 +1,3 @@
-
 from sqlmodel import Relationship
 
 from splice.infra.database.base import BaseTable
@@ -8,13 +7,13 @@ from .linkusergroup import linkUserGroup
 
 
 class Group(BaseTable, table=True):
-    __tablename__ = "groups"
+    __tablename__ = 'groups'
     name: str
     photo: str
-    users: list["User"] = Relationship(
-        back_populates="groups",
+    users: list['User'] = Relationship(  # type: ignore #noqa: F821
+        back_populates='groups',
         link_model=linkUserGroup,
-        sa_relationship_kwargs={"lazy": "selectin"},
+        sa_relationship_kwargs={'lazy': 'selectin'},
     )
 
 

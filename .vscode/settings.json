@@ -4,7 +4,8 @@
     "editor.rulers": [79]
   },
   "black-formatter.args": [
-    "--skip-string-normalization"
+    "--skip-string-normalization",
+    "--line-length", "79"
   ],
   "files.autoSave": "afterDelay",
   "files.autoSaveDelay": 5000,

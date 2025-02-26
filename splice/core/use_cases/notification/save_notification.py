@@ -1,4 +1,3 @@
-
 from splice.infra.repositories.notification_repository import (
     NotificationRepository,
 )
@@ -8,8 +7,7 @@ from splice.interface.schemas.notification_schema import (
 
 
 class SaveNotification:
-    def __init__(self,
-                 notification_repository: NotificationRepository):
+    def __init__(self, notification_repository: NotificationRepository):
         self.notification_repository = notification_repository
 
     async def execute(self, message_id: str, user_id: str, is_read: bool):

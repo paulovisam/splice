@@ -18,5 +18,5 @@ class BaseTable(SQLModel):
     updated_at: Optional[datetime] = Field(
         default=None,
         sa_type=DateTime(timezone=True),
-        sa_column_kwargs={"onupdate": func.now(), "nullable": True}
+        sa_column_kwargs={'onupdate': func.now(), 'nullable': True},
     )

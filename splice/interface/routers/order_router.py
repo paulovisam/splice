@@ -1,11 +1,16 @@
+from typing import List
+
 from fastapi import APIRouter, Body, Depends
 from fastapi.exceptions import HTTPException
 from sqlalchemy.orm import Session
-from typing import Union, List
 
+from splice.core.models.order import (
+    Order,
+    OrderCreateSchema,
+    OrderUpdateSchema,
+)
 from splice.infra.database import get_pg_session
 from splice.infra.repositories.order_repository import OrderRepository
-from splice.core.models.order import OrderCreateSchema, OrderUpdateSchema, Order
 from splice.interface.service.order_service import OrderService
 
 router = APIRouter(prefix='/orders')
@@ -28,7 +33,9 @@ async def get_order(
     elif establishment_id:
         order = await service.get_by_establishment_id(establishment_id)
     else:
-        raise HTTPException(status_code=400, detail='Parâmetro de consulta necessário')
+        raise HTTPException(
+            status_code=400, detail='Parâmetro de consulta necessário'
+        )
 
     if not order:
         raise HTTPException(status_code=404, detail='Order não encontrado')

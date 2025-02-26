@@ -1,14 +1,13 @@
 # from async_generator import asynccontextmanager
 import redis
 from motor.motor_asyncio import AsyncIOMotorClient
-from sqlalchemy import create_engine
 from sqlalchemy.ext.asyncio import AsyncSession, create_async_engine
-from sqlalchemy.orm import Session, sessionmaker
+from sqlalchemy.orm import sessionmaker
 
 from splice.settings import settings
 
 # Redis
-redis_session = redis.Redis(host="localhost", port=6379, db=0)
+redis_session = redis.Redis(host='localhost', port=6379, db=0)
 
 # MongoDB
 __mongo_client = AsyncIOMotorClient(settings.MONGO_URL)
@@ -27,7 +26,9 @@ async def get_mongo_session():
 
 # Async
 engine = create_async_engine(settings.DATABASE_URL)
-pg_session = sessionmaker(bind=engine, class_=AsyncSession, expire_on_commit=False)
+pg_session = sessionmaker(
+    bind=engine, class_=AsyncSession, expire_on_commit=False
+)
 
 
 async def get_pg_session():

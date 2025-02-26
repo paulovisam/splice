@@ -23,7 +23,9 @@ class OrderRepository:
         statement = select(Order).filter_by(user_id=user_id)
         return (await self.db_session.execute(statement)).scalars().all()
 
-    async def get_by_establishment_id(self, establishment_id: UUID) -> Order | None:
+    async def get_by_establishment_id(
+        self, establishment_id: UUID
+    ) -> Order | None:
         statement = select(Order).filter_by(establishment_id=establishment_id)
         return (await self.db_session.execute(statement)).scalars().all()
 
