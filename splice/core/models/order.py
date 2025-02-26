@@ -13,15 +13,15 @@ from .user import User
 
 
 class PaymentType(enum.Enum):
-    CREDIT_CARD = "Credit Card"
-    DEBIT_CARD = "Debit Card"
-    PAYPAL = "PayPal"
-    BANK_TRANSFER = "Bank Transfer"
-    CASH = "Cash"
-    CRYPTOCURRENCY = "Cryptocurrency"
-    APPLE_PAY = "Apple Pay"
-    GOOGLE_PAY = "Google Pay"
-    PIX = "Pix"
+    CREDIT_CARD = "CREDIT_CARD"
+    DEBIT_CARD = "DEBIT_CARD"
+    PAYPAL = "PAYPAL"
+    BANK_TRANSFER = "BANK_TRANSFER"
+    CASH = "CASH"
+    CRYPTOCURRENCY = "CRYPTOCURRENCY"
+    APPLE_PAY = "APPLE_PAY"
+    GOOGLE_PAY = "GOOGLE_PAY"
+    PIX = "PIX"
 
 
 class Order(BaseTable, table=True):

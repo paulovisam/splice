@@ -20,6 +20,14 @@ class OrderService:
         use_case = GetOrder(self.repo)
         return await use_case.get_by_id(order_id)
 
+    async def get_by_user_id(self, user_id: int):
+        use_case = GetOrder(self.repo)
+        return await use_case.get_by_user_id(user_id)
+
+    async def get_by_establishment_id(self, establishment_id: int):
+        use_case = GetOrder(self.repo)
+        return await use_case.get_by_establishment_id(establishment_id)
+
     async def update(self, order_id: int, **kwargs):
         use_case = UpdateOrder(self.repo)
         return await use_case.execute(order_id=order_id, **kwargs)

@@ -1,29 +1,32 @@
 from fastapi import APIRouter, Body, Depends
 from fastapi.exceptions import HTTPException
 from sqlalchemy.orm import Session
+from typing import Union, List
 
 from splice.infra.database import get_pg_session
 from splice.infra.repositories.order_repository import OrderRepository
-from splice.interface.schemas.order_schema import (
-    OrderCreateSchema,
-    OrderResponseSchema,
-    OrderUpdateSchema,
-)
+from splice.core.models.order import OrderCreateSchema, OrderUpdateSchema, Order
 from splice.interface.service.order_service import OrderService
 
 router = APIRouter(prefix='/orders')
 
 
-@router.get('')
+@router.get('', response_model=List[Order])
 async def get_order(
     order_id: str = None,
+    user_id: str = None,
+    establishment_id: str = None,
     db_session: Session = Depends(get_pg_session),
 ):
     repo = OrderRepository(db_session)
     service = OrderService(repo)
 
     if order_id:
-        order = await service.get_by_id(order_id)
+        order = [await service.get_by_id(order_id)]
+    elif user_id:
+        order = await service.get_by_user_id(user_id)
+    elif establishment_id:
+        order = await service.get_by_establishment_id(establishment_id)
     else:
         raise HTTPException(status_code=400, detail='Parâmetro de consulta necessário')
 
@@ -33,9 +36,9 @@ async def get_order(
     return order
 
 
-@router.post('', response_model=OrderResponseSchema)
+@router.post('', response_model=Order)
 async def create_order(
-    data: OrderCreateSchema = Body(),
+    data: OrderCreateSchema = Body(),  # type: ignore
     db_session: Session = Depends(get_pg_session),
 ):
     repo = OrderRepository(db_session)
@@ -44,9 +47,10 @@ async def create_order(
     return order
 
 
-@router.put('', response_model=OrderResponseSchema)
+@router.put('', response_model=Order)
 async def update_order(
-    data: OrderUpdateSchema = Body(), db_session: Session = Depends(get_pg_session)
+    data: OrderUpdateSchema = Body(),  # type: ignore
+    db_session: Session = Depends(get_pg_session),
 ):
     repo = OrderRepository(db_session)
     service = OrderService(repo)
