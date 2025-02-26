@@ -12,7 +12,6 @@ from splice.interface.schemas.order_schema import (
 from splice.interface.service.order_service import OrderService
 
 router = APIRouter(prefix='/orders')
-# TODO: adicionar router em app.py
 
 
 @router.get('')
@@ -26,9 +25,7 @@ async def get_order(
     if order_id:
         order = await service.get_by_id(order_id)
     else:
-        raise HTTPException(
-            status_code=400, detail='Parâmetro de consulta necessário'
-        )
+        raise HTTPException(status_code=400, detail='Parâmetro de consulta necessário')
 
     if not order:
         raise HTTPException(status_code=404, detail='Order não encontrado')
@@ -43,9 +40,7 @@ async def create_order(
 ):
     repo = OrderRepository(db_session)
     service = OrderService(repo)
-    order = await service.create(
-        # TODO - preencher os dados
-    )
+    order = await service.create(**data.model_dump())
     return order
 
 
