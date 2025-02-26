@@ -1,4 +1,5 @@
 import uuid
+from typing import Optional
 
 from sqlmodel import Relationship
 
@@ -6,7 +7,6 @@ from splice.infra.database.base import BaseTable, Field
 from splice.utils.generate_schemas import generate_schema
 
 from .user import User
-from typing import Optional
 
 
 class Establishment(BaseTable, table=True):
@@ -22,7 +22,7 @@ class Establishment(BaseTable, table=True):
         back_populates="establishment", sa_relationship_kwargs={"lazy": "selectin"}
     )
 
-    orders: Optional["order"] = Relationship(
+    orders: Optional["Order"] = Relationship(
         back_populates="establishment", sa_relationship_kwargs={"lazy": "selectin"}
     )
     # Serializar Relacionamentos

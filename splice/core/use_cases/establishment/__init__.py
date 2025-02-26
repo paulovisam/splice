@@ -1,4 +1,4 @@
-from .create_establishment import CreateEstablishment
-from .delete_establishment import DeleteEstablishment
-from .get_establishment import GetEstablishment
-from .update_establishment import UpdateEstablishment
+from .create_establishment import CreateEstablishment as CreateEstablishment
+from .delete_establishment import DeleteEstablishment as DeleteEstablishment
+from .get_establishment import GetEstablishment as GetEstablishment
+from .update_establishment import UpdateEstablishment as UpdateEstablishment

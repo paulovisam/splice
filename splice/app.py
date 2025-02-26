@@ -7,6 +7,9 @@ from fastapi.middleware.cors import CORSMiddleware
 
 from splice.interface.exceptions.custom_exceptions import *
 from splice.interface.exceptions.handlers import *
+from splice.interface.routers.establishment_router import (
+    router as establishment_router,
+)
 from splice.interface.routers.group_router import router as group_router
 from splice.interface.routers.message_router import router as message_router
 from splice.interface.routers.notification_router import (

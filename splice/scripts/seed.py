@@ -1,19 +1,16 @@
 import os
 import random
 
-from splice.core.models.group import Group
-from splice.core.models.establishment import establishment
-from splice.core.models.user import User
 from splice.infra.database import mongo_session, pg_session
-from splice.infra.repositories.group_repository import GroupRepository
+from splice.infra.repositories.establishment_repository import (
+    EstablishmentRepository,
+)
+from splice.infra.repositories.group_repository import Group, GroupRepository
 from splice.infra.repositories.message_repository import (
     MessageCreateSchema,
     MessageRepository,
 )
-from splice.infra.repositories.establishment_repository import (
-    establishmentRepository,
-)
-from splice.infra.repositories.user_repository import UserRepository
+from splice.infra.repositories.user_repository import User, UserRepository
 
 
 async def seed():
@@ -23,30 +20,30 @@ async def seed():
 
     # Prepare data
     paulo = User(
-                first_name='Paulo',
-                last_name='Mendonca',
-                phone='010101',
-                email='paulo@email.com',
-                username='paulo',
-                password='123',
-                photo='my_photo',
-            )
+        first_name='Paulo',
+        last_name='Mendonca',
+        phone='010101',
+        email='paulo@email.com',
+        username='paulo',
+        password='123',
+        photo='my_photo',
+    )
     alice = User(
-                first_name='Alice',
-                last_name='Silva',
-                phone='020202',
-                email='alice@email.com',
-                username='alice',
-                password='123',
-                photo='my_photo',
-            )
+        first_name='Alice',
+        last_name='Silva',
+        phone='020202',
+        email='alice@email.com',
+        username='alice',
+        password='123',
+        photo='my_photo',
+    )
 
     establishment = establishment(
-            name='establishmente do Paulo',
-            description='establishmente do Paulo',
-            photo='Rua 1, 123',
-            user_id=paulo.id,
-        )
+        name='establishmente do Paulo',
+        description='establishmente do Paulo',
+        photo='Rua 1, 123',
+        user_id=paulo.id,
+    )
 
     group = Group(
         name='Grupo do Paulo',
@@ -59,7 +56,7 @@ async def seed():
     await user_repo.save(alice)
     paulo = await user_repo.get_by_username(paulo.username)
 
-    establishment_repo = establishmentRepository(pg_session)
+    establishment_repo = EstablishmentRepository(pg_session)
     await establishment_repo.save(establishment)
 
     group_repo = GroupRepository(pg_session)

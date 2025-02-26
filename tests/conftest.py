@@ -28,10 +28,50 @@ async def session():
     # yield async_session
     async with async_session() as session:
         yield session
-
     async with engine.begin() as conn:
         await conn.run_sync(SQLModel.metadata.drop_all)
     await engine.dispose()
+
+
+@pytest.fixture
+async def user(session):
+    from splice.infra.repositories.user_repository import User, UserRepository
+
+    return await UserRepository(session).save(
+        User(
+            first_name='paulo',
+            last_name='visam',
+            email='paulo@email.com',
+            phone='5562123456789',
+            username='paulovisam',
+            password='password',
+            photo='url_photo',
+        )
+    )
+
+
+@pytest.fixture
+async def establishment(session, user):
+    from splice.infra.repositories.establishment_repository import (
+        Establishment,
+        EstablishmentRepository,
+    )
+
+    return await EstablishmentRepository(session).save(
+        Establishment(
+            name="Restaurante do Zeca",
+            description="Sabor e Tradição",
+            photo='url_photo',
+            user_id=user.id,
+        )
+    )
+
+
+@pytest.fixture
+async def order():
+
+    ...
+    # order = Order(session)
 
 
 @pytest.fixture

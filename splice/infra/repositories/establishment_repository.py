@@ -9,13 +9,11 @@ class EstablishmentRepository:
         self.db_session = db_session
 
     async def save(self, establishment: Establishment) -> Establishment:
-        if establishment.id is None:
-            self.db_session.add(establishment)
-        else:
-            await self.db_session.merge(establishment)
+        await self.db_session.merge(establishment)
         await self.db_session.commit()
         return establishment
 
+    # TODO = corrigir type para uuid
     async def get_by_id(self, establishment_id: int) -> Establishment | None:
         statement = select(Establishment).filter_by(id=establishment_id)
         return (await self.db_session.execute(statement)).scalar_one_or_none()
@@ -25,7 +23,7 @@ class EstablishmentRepository:
         return (await self.db_session.execute(statement)).scalar_one_or_none()
 
     async def delete(self, establishment_id: int) -> None:
-        statement = select(establishment).filter_by(id=establishment_id)
+        statement = select(Establishment).filter_by(id=establishment_id)
         establishment = (await self.db_session.execute(statement)).scalar_one_or_none()
         if establishment:
             await self.db_session.delete(establishment)

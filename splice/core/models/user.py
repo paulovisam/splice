@@ -24,7 +24,7 @@ class User(BaseTable, table=True):
     photo: str = Field()
 
     # TODO: retornar obj de establishment serializado na resposta
-    establishment: Optional["establishment"] = Relationship(
+    establishment: Optional["Establishment"] = Relationship(
         back_populates="user", sa_relationship_kwargs={"lazy": "selectin"}
     )
 
@@ -32,6 +32,10 @@ class User(BaseTable, table=True):
         back_populates="users",
         link_model=linkUserGroup,
         sa_relationship_kwargs={"lazy": "selectin"},
+    )
+
+    orders: Optional["Order"] = Relationship(
+        back_populates="user", sa_relationship_kwargs={"lazy": "selectin"}
     )
 
 
