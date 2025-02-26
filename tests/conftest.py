@@ -68,10 +68,22 @@ async def establishment(session, user):
 
 
 @pytest.fixture
-async def order():
+async def order(session, user, establishment):
+    from splice.infra.repositories.order_repository import (
+        Order,
+        OrderRepository,
+    )
+    from splice.core.models.order import PaymentType
 
-    ...
-    # order = Order(session)
+    return await OrderRepository(session).save(
+        Order(
+            value=100.0,
+            payment_method=PaymentType.CASH,
+            has_paid=True,
+            user_id=user.id,
+            establishment_id=establishment.id,
+        )
+    )
 
 
 @pytest.fixture

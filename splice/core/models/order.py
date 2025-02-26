@@ -13,14 +13,19 @@ from .user import User
 
 
 class PaymentType(enum.Enum):
-    money = "money"
-    pix = "pix"
-    card = "card"
+    CREDIT_CARD = "CREDIT_CARD"
+    DEBIT_CARD = "DEBIT_CARD"
+    PAYPAL = "PAYPAL"
+    BANK_TRANSFER = "BANK_TRANSFER"
+    CASH = "CASH"
+    CRYPTOCURRENCY = "CRYPTOCURRENCY"
+    APPLE_PAY = "APPLE_PAY"
+    GOOGLE_PAY = "GOOGLE_PAY"
+    PIX = "PIX"
 
 
 class Order(BaseTable, table=True):
     __tablename__ = 'orders'
-    # TODO - preencher os dados
     value: float = Field(nullable=False)
     payment_method: PaymentType = Field(
         sa_column=Column(SAEnum(PaymentType, name="paymeny_type_enum"))

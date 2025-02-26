@@ -12,7 +12,7 @@ from splice.infra.repositories.establishment_repository import (
 )
 from splice.interface.service.establishment_service import EstablishmentService
 
-router = APIRouter(prefix="/establishment")
+router = APIRouter(prefix="/establishments")
 
 
 @router.post("", response_model=Establishment)
