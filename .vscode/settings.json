@@ -10,4 +10,9 @@
   "files.autoSave": "afterDelay",
   "files.autoSaveDelay": 5000,
   "editor.formatOnSave": true,
+  "files.exclude": {
+    "**/.ruff_cache": true,
+    "**/.pytest_cache": true,
+    ".coverage": true,
+  }
 }
