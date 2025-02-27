@@ -38,7 +38,7 @@ class Order(BaseTable, table=True):
         back_populates='orders', sa_relationship_kwargs={'lazy': 'selectin'}
     )
 
-    # Relação com a tabela 'users'
+    # Relação com a tabela 'establishment'
     establishment_id: uuid.UUID = Field(foreign_key='establishments.id')
     establishment: Establishment = Relationship(
         back_populates='orders', sa_relationship_kwargs={'lazy': 'selectin'}

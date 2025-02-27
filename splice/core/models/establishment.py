@@ -27,6 +27,11 @@ class Establishment(BaseTable, table=True):
         back_populates='establishment',
         sa_relationship_kwargs={'lazy': 'selectin'},
     )
+
+    products: Optional['Product'] = Relationship(  # type: ignore #noqa: F821
+        back_populates='establishment',
+        sa_relationship_kwargs={'lazy': 'selectin'},
+    )
     # Serializar Relacionamentos
     # class Config:
     #     from_attributes = True
