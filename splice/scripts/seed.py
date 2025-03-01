@@ -11,12 +11,12 @@ from splice.infra.repositories.message_repository import (
     MessageCreateSchema,
     MessageRepository,
 )
-from splice.infra.repositories.user_repository import User, UserRepository
 from splice.infra.repositories.order_repository import Order, OrderRepository
 from splice.infra.repositories.product_repository import (
     Product,
     ProductRepository,
 )
+from splice.infra.repositories.user_repository import User, UserRepository
 
 
 async def seed():

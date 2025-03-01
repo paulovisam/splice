@@ -1,17 +1,17 @@
 import enum
 import uuid
+from typing import Optional
 
 from sqlalchemy import Column
 from sqlalchemy import Enum as SAEnum
 from sqlmodel import Relationship
-from typing import Optional
 
 from splice.infra.database.base import BaseTable, Field
 from splice.utils.generate_schemas import generate_schema
 
 from .establishment import Establishment
-from .user import User
 from .linkorderproduct import linkOrderProduct
+from .user import User
 
 
 class PaymentType(enum.Enum):

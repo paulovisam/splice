@@ -5,8 +5,8 @@ from sqlalchemy.orm import Session
 from splice.core.models.user import (
     User,
     UserCreateSchema,
-    UserUpdateSchema,
     UserResponse,
+    UserUpdateSchema,
 )
 from splice.infra.database import get_pg_session
 from splice.infra.repositories.user_repository import UserRepository

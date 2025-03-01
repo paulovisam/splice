@@ -1,19 +1,17 @@
-from typing import Optional, Dict, List, Any
+from typing import List, Optional
 
+# import uuid
+# from sqlmodel import SQLModel
+from pydantic import ConfigDict
 from sqlmodel import Relationship
 
 from splice.infra.database.base import BaseTable, Field
 from splice.utils.generate_schemas import generate_schema
 
-from .linkusergroup import linkUserGroup
-
-# import uuid
-# from sqlmodel import SQLModel
-from pydantic import ConfigDict
-
 # Importe o modelo Establishment para evitar problemas de referência circular
 from .establishment import Establishment
 from .group import Group
+from .linkusergroup import linkUserGroup
 
 
 class User(BaseTable, table=True):
