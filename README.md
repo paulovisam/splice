@@ -12,8 +12,9 @@ poetry shell
 
 cp .env.example .env #Altere o env com as credenciais do psql
 docker compose up -d #Subir banco em 5432
-task alembic_upgrade
-task run
+createdb splice #Criar banco de dados
+task alembic_upgrade #Aplicar migrações
+task run #Executar projeto
 ```
 
 ## Comandos
@@ -28,12 +29,14 @@ task run
 ---
 
 ### Fluxo de Desenvolvimento com Git Flow
+
 Este projeto utiliza o modelo de ramificação Git Flow, que organiza o desenvolvimento em diferentes tipos de branches para facilitar o controle de versão e a entrega contínua. Abaixo estão as principais branches e como utilizá-las durante o desenvolvimento.
 
 Instale com `sudo apt-get install git-flow`
 Inicialize `git flow init` e **utilize os valores padrão!**
 
 #### Estrutura de Branches
+
 - **prod**: contém o códigos em produção, sempre em estado estável.
 
 - **homologa**: contém o código com novas features para ser validadas antes de subir para produção
@@ -41,6 +44,7 @@ Inicialize `git flow init` e **utilize os valores padrão!**
 - **develop**: contém o código de desenvolvimento, onde as novas features são integradas antes de serem liberadas para produção.
 
 #### Tipos de Branches
+
 - **Feature**: branches usadas para o desenvolvimento de novas funcionalidades. Devem ser baseadas na branch develop.
 
 - **Release**: branches usadas para preparar uma nova versão de produção. São baseadas em develop e, ao finalizar, devem ser mescladas em prod, homologa e develop.
@@ -52,7 +56,7 @@ Inicialize `git flow init` e **utilize os valores padrão!**
 Ao iniciar:
 `git flow tipo-da-branch start nome-da-feature`
 
-Ao finalizar: 
+Ao finalizar:
 `git flow tipo-da-branch finish nome-da-feature`
 
 ---

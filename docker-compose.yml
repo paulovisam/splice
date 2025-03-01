@@ -30,7 +30,7 @@ services:
       - "27017:27017"
     networks:
       - splice_network
-
+    restart: always
     environment:
       MONGO_INITDB_ROOT_USERNAME: mongo
       MONGO_INITDB_ROOT_PASSWORD: 123456
