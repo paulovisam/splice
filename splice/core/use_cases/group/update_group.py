@@ -9,6 +9,9 @@ class UpdateGroup:
         # Obtém o grupo pelo ID
         group = await self.group_repo.get_by_id(group_id)
 
+        if not group:
+            raise ValueError('Grupo não encontrado')
+
         # Atualiza somente os atributos fornecidos
         for key, value in kwargs.items():
             if value is not None and hasattr(group, key):

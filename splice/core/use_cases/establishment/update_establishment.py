@@ -11,6 +11,9 @@ class UpdateEstablishment:
         # Obtém o usuário pelo ID
         establishment = await self.repo.get_by_id(establishment_id)
 
+        if not establishment:
+            raise ValueError('Estabelecimento não encontrado')
+
         # Atualiza somente os atributos fornecidos
         for key, value in kwargs.items():
             if value is not None and hasattr(establishment, key):

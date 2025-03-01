@@ -9,6 +9,9 @@ class UpdateProduct:
         # Obtém  pelo ID
         product = await self.product_repo.get_by_id(product_id)
 
+        if not product:
+            raise ValueError('Produto não encontrado')
+
         # Atualiza somente os atributos fornecidos
         for key, value in kwargs.items():
             if value is not None and hasattr(product, key):

@@ -9,6 +9,9 @@ class UpdateOrder:
         # Obtém  pelo ID
         order = await self.order_repo.get_by_id(order_id)
 
+        if not order:
+            raise ValueError('Pedido não encontrado')
+
         # Atualiza somente os atributos fornecidos
         for key, value in kwargs.items():
             if value is not None and hasattr(order, key):

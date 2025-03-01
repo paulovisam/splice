@@ -9,6 +9,9 @@ class UpdateUser:
         # Obtém o usuário pelo ID
         user = await self.user_repo.get_by_id(user_id)
 
+        if not user:
+            raise ValueError('Usuário não encontrado')
+
         # Atualiza somente os atributos fornecidos
         for key, value in kwargs.items():
             if value is not None and hasattr(user, key):
