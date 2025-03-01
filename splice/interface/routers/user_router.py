@@ -6,7 +6,7 @@ from splice.core.models.user import (
     User,
     UserCreateSchema,
     UserUpdateSchema,
-    # UserResponse,
+    UserResponse,
 )
 from splice.infra.database import get_pg_session
 from splice.infra.repositories.user_repository import UserRepository
@@ -15,7 +15,7 @@ from splice.interface.service.user_service import UserService
 router = APIRouter(prefix='/users')
 
 
-@router.get('', response_model=User)
+@router.get('', response_model=UserResponse)
 async def get_user(
     user_id: str = None,
     username: str = None,

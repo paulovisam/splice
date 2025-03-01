@@ -6,8 +6,6 @@ from sqlmodel import Relationship
 from splice.infra.database.base import BaseTable, Field
 from splice.utils.generate_schemas import generate_schema
 
-from .user import User
-
 
 class Establishment(BaseTable, table=True):
     __tablename__ = 'establishments'
@@ -18,7 +16,7 @@ class Establishment(BaseTable, table=True):
 
     # Relação com a tabela 'users'
     user_id: uuid.UUID = Field(foreign_key='users.id')
-    user: User = Relationship(
+    user: 'User' = Relationship(  # type: ignore
         back_populates='establishment',
         sa_relationship_kwargs={'lazy': 'selectin'},
     )
