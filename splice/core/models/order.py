@@ -4,12 +4,14 @@ import uuid
 from sqlalchemy import Column
 from sqlalchemy import Enum as SAEnum
 from sqlmodel import Relationship
+from typing import Optional
 
 from splice.infra.database.base import BaseTable, Field
 from splice.utils.generate_schemas import generate_schema
 
 from .establishment import Establishment
 from .user import User
+from .linkorderproduct import linkOrderProduct
 
 
 class PaymentType(enum.Enum):
@@ -42,6 +44,13 @@ class Order(BaseTable, table=True):
     establishment_id: uuid.UUID = Field(foreign_key='establishments.id')
     establishment: Establishment = Relationship(
         back_populates='orders', sa_relationship_kwargs={'lazy': 'selectin'}
+    )
+
+    # Relação com produtcs
+    products: Optional[list['Product']] = Relationship(  # type: ignore #noqa: F821
+        back_populates='orders',
+        link_model=linkOrderProduct,
+        sa_relationship_kwargs={'lazy': 'selectin'},
     )
 
 
