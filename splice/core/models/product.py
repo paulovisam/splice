@@ -29,6 +29,12 @@ class Product(BaseTable, table=True):
         sa_relationship_kwargs={'lazy': 'selectin'},
     )
 
+    # Relação com a tabela 'subproducts'
+    subproducts: Optional[list['Subproduct']] = Relationship(  # type: ignore #noqa: F821
+        back_populates='product',
+        sa_relationship_kwargs={'lazy': 'selectin'},
+    )
+
 
 ProductCreateSchema = generate_schema(Product)
 ProductUpdateSchema = generate_schema(Product, optional=True)

@@ -16,7 +16,7 @@ class Establishment(BaseTable, table=True):
 
     # Relação com a tabela 'users'
     user_id: uuid.UUID = Field(foreign_key='users.id')
-    user: 'User' = Relationship(  # type: ignore
+    user: 'User' = Relationship(  # type: ignore #noqa: F821
         back_populates='establishment',
         sa_relationship_kwargs={'lazy': 'selectin'},
     )

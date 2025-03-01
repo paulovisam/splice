@@ -16,6 +16,10 @@ from splice.infra.repositories.product_repository import (
     Product,
     ProductRepository,
 )
+from splice.infra.repositories.subproduct_repository import (
+    Subproduct,
+    SubproductRepository,
+)
 from splice.infra.repositories.user_repository import User, UserRepository
 
 
@@ -59,7 +63,7 @@ async def seed():
     order = Order(
         id='052908b7-a9a0-48a7-a518-77c9316f6416',
         value=157.30,
-        payment_method="PIX",
+        payment_method='PIX',
         has_paid=True,
         user_id=paulo.id,
         establishment_id=establishment.id,
@@ -75,8 +79,15 @@ async def seed():
 
     product.orders.append(order)
 
-    async with pg_session() as session:
+    subproduct = Subproduct(
+        id='a8e63f9f-b83c-4644-8bc6-f1d0fd229146',
+        name='Pizza de calabresa',
+        description='Pizza de calabresa com queijo',
+        value=10.00,
+        product_id=product.id,
+    )
 
+    async with pg_session() as session:
         # Postgres
         user_repo = UserRepository(session)
         await user_repo.save(paulo)
@@ -95,6 +106,9 @@ async def seed():
 
         product_repo = ProductRepository(session)
         await product_repo.save(product)
+
+        subproduct_repo = SubproductRepository(session)
+        await subproduct_repo.save(subproduct)
 
     # Mongo
     message_repo = MessageRepository(mongo_session=mongo_session)

@@ -13,7 +13,7 @@ def serialize_model(model):
     for key, value in data.items():
         if hasattr(model, key) and getattr(model, key) is not None:
             attr = getattr(model, key)
-            if hasattr(attr, "model_dump"):
+            if hasattr(attr, 'model_dump'):
                 data[key] = serialize_model(attr)
             elif isinstance(attr, list):
                 data[key] = [serialize_model(item) for item in attr]
