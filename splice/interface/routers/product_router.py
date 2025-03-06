@@ -7,17 +7,20 @@ from splice.core.models.product import (
     ProductCreateSchema,
     ProductUpdateSchema,
 )
+from splice.core.models.user import User
 from splice.infra.database import get_pg_session
 from splice.infra.repositories.product_repository import ProductRepository
+from splice.interface.service.auth_service import get_current_user
 from splice.interface.service.product_service import ProductService
 
 router = APIRouter(prefix='/products')
 
 
 @router.get('', response_model=Product)
-async def get_product(
+async def get(
     product_id: str = None,
     db_session: Session = Depends(get_pg_session),
+    current_user: User = Depends(get_current_user),
 ):
     repo = ProductRepository(db_session)
     service = ProductService(repo)
@@ -36,9 +39,10 @@ async def get_product(
 
 
 @router.post('', response_model=Product)
-async def create_product(
+async def create(
     data: ProductCreateSchema = Body(),  # type: ignore
     db_session: Session = Depends(get_pg_session),
+    current_user: User = Depends(get_current_user),
 ):
     repo = ProductRepository(db_session)
     service = ProductService(repo)
@@ -47,9 +51,10 @@ async def create_product(
 
 
 @router.put('', response_model=Product)
-async def update_product(
+async def update(
     data: ProductUpdateSchema = Body(),  # type: ignore
     db_session: Session = Depends(get_pg_session),
+    current_user: User = Depends(get_current_user),
 ):
     repo = ProductRepository(db_session)
     service = ProductService(repo)
@@ -62,7 +67,11 @@ async def update_product(
 
 
 @router.delete('')
-async def delete_product(product_id: str, db_session=Depends(get_pg_session)):
+async def delete(
+    product_id: str,
+    db_session=Depends(get_pg_session),
+    current_user: User = Depends(get_current_user),
+):
     repo = ProductRepository(db_session)
     service = ProductService(repo)
     return await service.delete(product_id)

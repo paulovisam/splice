@@ -7,16 +7,20 @@ from splice.core.models.group import (
     GroupCreateSchema,
     GroupUpdateSchema,
 )
+from splice.core.models.user import User
 from splice.infra.database import get_pg_session
 from splice.infra.repositories.group_repository import GroupRepository
+from splice.interface.service.auth_service import get_current_user
 from splice.interface.service.group_service import GroupService
 
 router = APIRouter(prefix='/groups')
 
 
 @router.get('', response_model=Group)
-async def get_group(
-    group_id: str = None, db_session: Session = Depends(get_pg_session)
+async def get(
+    group_id: str = None,
+    db_session: Session = Depends(get_pg_session),
+    current_user: User = Depends(get_current_user),
 ):
     repo = GroupRepository(db_session)
     service = GroupService(repo)
@@ -35,9 +39,10 @@ async def get_group(
 
 
 @router.post('', response_model=Group)
-async def post_group(
+async def post(
     data: GroupCreateSchema = Body(),  # type: ignore
     db_session: Session = Depends(get_pg_session),
+    current_user: User = Depends(get_current_user),
 ):
     repo = GroupRepository(db_session)
     service = GroupService(repo)
@@ -49,9 +54,10 @@ async def post_group(
 
 
 @router.put('', response_model=Group)
-async def update_group(
+async def update(
     data: GroupUpdateSchema = Body(),  # type: ignore
     db_session: Session = Depends(get_pg_session),
+    current_user: User = Depends(get_current_user),
 ):
     repo = GroupRepository(db_session)
     service = GroupService(repo)
@@ -64,7 +70,11 @@ async def update_group(
 
 
 @router.delete('')
-async def delete_group(group_id: str, db_session=Depends(get_pg_session)):
+async def delete(
+    group_id: str,
+    db_session=Depends(get_pg_session),
+    current_user: User = Depends(get_current_user),
+):
     repo = GroupRepository(db_session)
     service = GroupService(repo)
     return await service.delete_group(group_id)

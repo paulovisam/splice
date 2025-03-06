@@ -17,6 +17,7 @@ from splice.interface.exceptions.handlers import (
     not_found_exception_handler,
     validation_exception_handler,
 )
+from splice.interface.routers.auth_router import router as auth_router
 from splice.interface.routers.establishment_router import (
     router as establishment_router,
 )
@@ -32,7 +33,6 @@ from splice.interface.routers.subproduct_router import (
 )
 from splice.interface.routers.user_router import router as user_router
 from splice.interface.routers.ws_router import router as ws_router
-from splice.interface.routers.auth_router import router as auth_router
 from splice.settings import settings
 
 

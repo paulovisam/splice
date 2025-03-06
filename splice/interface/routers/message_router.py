@@ -15,7 +15,7 @@ router = APIRouter(prefix='/message')
 
 
 @router.post('', response_model=MessageResponseSchema)
-async def create_message(
+async def create(
     data: MessageCreateSchema, db: Session = Depends(get_mongo_session)
 ):
     repo = MessageRepository(db)
@@ -28,9 +28,7 @@ async def create_message(
 
 
 @router.get('/{username}', response_model=List[MessageResponseSchema])
-async def get_messages_by_username(
-    username: str, db=Depends(get_mongo_session)
-):
+async def get_by_username(username: str, db=Depends(get_mongo_session)):
     repo = MessageRepository(db)
     service = MessageService(repo)
     return await service.get_messages_by_username(username)

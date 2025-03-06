@@ -17,7 +17,7 @@ router = APIRouter(prefix='/notifications')
 
 
 @router.post('', response_model=NotificationResponseSchema)
-async def create_notification(
+async def create(
     data: NotificationCreateSchema,
     mongo_db: Session = Depends(get_mongo_session),
     postgress_db: Session = Depends(get_pg_session),
@@ -36,7 +36,7 @@ async def create_notification(
 
 
 @router.get('', response_model=NotificationResponseSchema)
-async def get_notification(
+async def get(
     notification_id: str = None,
     mongo_db: Session = Depends(get_mongo_session),
     postgress_db: Session = Depends(get_pg_session),
@@ -53,7 +53,7 @@ async def get_notification(
 
 
 @router.delete('')
-async def delete_notification(
+async def delete(
     notification_id: str = None,
     mongo_db: Session = Depends(get_mongo_session),
     postgress_db: Session = Depends(get_pg_session),

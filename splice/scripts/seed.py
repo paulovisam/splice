@@ -1,6 +1,7 @@
 import os
 import random
 
+from splice.core.use_cases.user import CreateUser
 from splice.infra.database import mongo_session, pg_session
 from splice.infra.repositories.establishment_repository import (
     Establishment,
@@ -21,7 +22,6 @@ from splice.infra.repositories.subproduct_repository import (
     SubproductRepository,
 )
 from splice.infra.repositories.user_repository import User, UserRepository
-from splice.core.use_cases.user import CreateUser
 
 
 async def seed():

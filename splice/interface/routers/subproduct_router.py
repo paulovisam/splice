@@ -7,10 +7,12 @@ from splice.core.models.subproduct import (
     SubproductCreateSchema,
     SubproductUpdateSchema,
 )
+from splice.core.models.user import User
 from splice.infra.database import get_pg_session
 from splice.infra.repositories.subproduct_repository import (
     SubproductRepository,
 )
+from splice.interface.service.auth_service import get_current_user
 from splice.interface.service.subproduct_service import SubproductService
 
 router = APIRouter(prefix='/subproducts')
@@ -18,9 +20,10 @@ router = APIRouter(prefix='/subproducts')
 
 
 @router.get('', response_model=Subproduct)
-async def get_subproduct(
+async def get(
     subproduct_id: str = None,
     db_session: Session = Depends(get_pg_session),
+    current_user: User = Depends(get_current_user),
 ):
     repo = SubproductRepository(db_session)
     service = SubproductService(repo)
@@ -41,9 +44,10 @@ async def get_subproduct(
 
 
 @router.post('', response_model=Subproduct)
-async def create_subproduct(
+async def create(
     data: SubproductCreateSchema = Body(),  # type: ignore
     db_session: Session = Depends(get_pg_session),
+    current_user: User = Depends(get_current_user),
 ):
     repo = SubproductRepository(db_session)
     service = SubproductService(repo)
@@ -52,9 +56,10 @@ async def create_subproduct(
 
 
 @router.put('', response_model=Subproduct)
-async def update_subproduct(
+async def update(
     data: SubproductUpdateSchema = Body(),  # type: ignore
     db_session: Session = Depends(get_pg_session),
+    current_user: User = Depends(get_current_user),
 ):
     repo = SubproductRepository(db_session)
     service = SubproductService(repo)
@@ -67,8 +72,10 @@ async def update_subproduct(
 
 
 @router.delete('')
-async def delete_subproduct(
-    subproduct_id: str, db_session=Depends(get_pg_session)
+async def delete(
+    subproduct_id: str,
+    db_session=Depends(get_pg_session),
+    current_user: User = Depends(get_current_user),
 ):
     repo = SubproductRepository(db_session)
     service = SubproductService(repo)

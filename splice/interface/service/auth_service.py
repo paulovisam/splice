@@ -1,18 +1,15 @@
-from fastapi import Depends, HTTPException, status
-from fastapi.security import OAuth2PasswordBearer
-from sqlalchemy.orm import Session
-from jose import JWTError, jwt
-from splice.infra.database import get_pg_session
-from splice.core.models.user import User
-from splice.infra.repositories.user_repository import UserRepository
 from datetime import datetime, timedelta, timezone
-from typing import Annotated
 
 import jwt
-from fastapi import Depends, FastAPI, HTTPException, status
+from fastapi import Depends, HTTPException, status
 from fastapi.security import OAuth2PasswordBearer
 from passlib.context import CryptContext
 from pydantic import BaseModel
+from sqlalchemy.orm import Session
+
+from splice.core.models.user import User
+from splice.infra.database import get_pg_session
+from splice.infra.repositories.user_repository import UserRepository
 from splice.settings import settings
 
 oauth2_scheme = OAuth2PasswordBearer(tokenUrl="token")

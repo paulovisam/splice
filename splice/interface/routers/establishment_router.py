@@ -6,19 +6,22 @@ from splice.core.models.establishment import (
     EstablishmentCreateSchema,
     EstablishmentUpdateSchema,
 )
+from splice.core.models.user import User
 from splice.infra.database import get_pg_session
 from splice.infra.repositories.establishment_repository import (
     EstablishmentRepository,
 )
+from splice.interface.service.auth_service import get_current_user
 from splice.interface.service.establishment_service import EstablishmentService
 
 router = APIRouter(prefix='/establishments')
 
 
 @router.post('', response_model=Establishment)
-async def create_establishment(
+async def create(
     data: EstablishmentCreateSchema,  # type: ignore
     db: Session = Depends(get_pg_session),
+    current_user: User = Depends(get_current_user),
 ):
     repo = EstablishmentRepository(db)
     service = EstablishmentService(repo)
@@ -28,10 +31,11 @@ async def create_establishment(
 
 
 @router.get('', response_model=Establishment)
-async def get_establishment(
+async def get(
     establishment_id: str = None,
     user_id: str = None,
     db: Session = Depends(get_pg_session),
+    current_user: User = Depends(get_current_user),
 ):
     repo = EstablishmentRepository(db)
     service = EstablishmentService(repo)
@@ -51,9 +55,10 @@ async def get_establishment(
 
 
 @router.put('')
-async def update_establishment(
-    data: EstablishmentUpdateSchema,
-    db: Session = Depends(get_pg_session),  # type: ignore
+async def update(
+    data: EstablishmentUpdateSchema,  # type: ignore
+    db: Session = Depends(get_pg_session),
+    current_user: User = Depends(get_current_user),
 ):
     repo = EstablishmentRepository(db)
     service = EstablishmentService(repo)
@@ -61,8 +66,10 @@ async def update_establishment(
 
 
 @router.delete('')
-async def delete_establishment(
-    establishment_id: str, db: Session = Depends(get_pg_session)
+async def delete(
+    establishment_id: str,
+    db: Session = Depends(get_pg_session),
+    current_user: User = Depends(get_current_user),
 ):
     repo = EstablishmentRepository(db)
     service = EstablishmentService(repo)

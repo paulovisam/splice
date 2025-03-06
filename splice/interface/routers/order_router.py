@@ -9,19 +9,22 @@ from splice.core.models.order import (
     OrderCreateSchema,
     OrderUpdateSchema,
 )
+from splice.core.models.user import User
 from splice.infra.database import get_pg_session
 from splice.infra.repositories.order_repository import OrderRepository
+from splice.interface.service.auth_service import get_current_user
 from splice.interface.service.order_service import OrderService
 
 router = APIRouter(prefix='/orders')
 
 
 @router.get('', response_model=List[Order])
-async def get_order(
+async def get(
     order_id: str = None,
     user_id: str = None,
     establishment_id: str = None,
     db_session: Session = Depends(get_pg_session),
+    current_user: User = Depends(get_current_user),
 ):
     repo = OrderRepository(db_session)
     service = OrderService(repo)
@@ -44,9 +47,10 @@ async def get_order(
 
 
 @router.post('', response_model=Order)
-async def create_order(
+async def create(
     data: OrderCreateSchema = Body(),  # type: ignore
     db_session: Session = Depends(get_pg_session),
+    current_user: User = Depends(get_current_user),
 ):
     repo = OrderRepository(db_session)
     service = OrderService(repo)
@@ -55,9 +59,10 @@ async def create_order(
 
 
 @router.put('', response_model=Order)
-async def update_order(
+async def update(
     data: OrderUpdateSchema = Body(),  # type: ignore
     db_session: Session = Depends(get_pg_session),
+    current_user: User = Depends(get_current_user),
 ):
     repo = OrderRepository(db_session)
     service = OrderService(repo)
@@ -70,7 +75,11 @@ async def update_order(
 
 
 @router.delete('')
-async def delete_order(order_id: str, db_session=Depends(get_pg_session)):
+async def delete(
+    order_id: str,
+    db_session=Depends(get_pg_session),
+    current_user: User = Depends(get_current_user),
+):
     repo = OrderRepository(db_session)
     service = OrderService(repo)
     return await service.delete(order_id)

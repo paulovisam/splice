@@ -1,19 +1,15 @@
-from fastapi import APIRouter, Body, Depends, Security, status
+from typing import Annotated
+
+from fastapi import APIRouter, Depends, status
 
 # from splice.app import app
 from fastapi.exceptions import HTTPException
+from fastapi.security import OAuth2PasswordRequestForm
 from sqlalchemy.orm import Session
-from fastapi.security import OAuth2PasswordBearer, OAuth2PasswordRequestForm
-from typing import Annotated
-from splice.core.models.user import (
-    User,
-    UserCreateSchema,
-    UserResponse,
-    UserUpdateSchema,
-)
+
 from splice.infra.database import get_pg_session
-from splice.interface.service.user_service import UserRepository, UserService
 from splice.interface.service.auth_service import AuthService, Token
+from splice.interface.service.user_service import UserRepository, UserService
 
 router = APIRouter(prefix='/auth')
 
