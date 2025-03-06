@@ -21,6 +21,7 @@ from splice.infra.repositories.subproduct_repository import (
     SubproductRepository,
 )
 from splice.infra.repositories.user_repository import User, UserRepository
+from splice.core.use_cases.user import CreateUser
 
 
 async def seed():
@@ -36,7 +37,7 @@ async def seed():
         phone='010101',
         email='paulo@email.com',
         username='paulo',
-        password='123',
+        password='secret',
         photo='my_photo',
     )
     alice = User(
@@ -46,7 +47,7 @@ async def seed():
         phone='020202',
         email='alice@email.com',
         username='alice',
-        password='123',
+        password='secret',
         photo='my_photo',
     )
 
@@ -90,8 +91,11 @@ async def seed():
     async with pg_session() as session:
         # Postgres
         user_repo = UserRepository(session)
-        await user_repo.save(paulo)
-        await user_repo.save(alice)
+
+        use_case = CreateUser(user_repo=user_repo)
+        use_case.execute(**alice.model_dump())
+        use_case.execute(**paulo.model_dump())
+
         paulo = await user_repo.get_by_username(paulo.username)
 
         establishment_repo = EstablishmentRepository(session)

@@ -32,6 +32,7 @@ from splice.interface.routers.subproduct_router import (
 )
 from splice.interface.routers.user_router import router as user_router
 from splice.interface.routers.ws_router import router as ws_router
+from splice.interface.routers.auth_router import router as auth_router
 from splice.settings import settings
 
 
@@ -76,6 +77,7 @@ app.include_router(establishment_router)
 app.include_router(order_router)
 app.include_router(product_router)
 app.include_router(subproduct_router)
+app.include_router(auth_router)
 
 app.add_exception_handler(ValueError, invalid_value)
 app.add_exception_handler(NotFoundException, not_found_exception_handler)

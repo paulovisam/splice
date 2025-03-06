@@ -15,9 +15,11 @@ class Settings(BaseSettings):
     MONGO_URL: str = 'mongodb://localhost:27017/splice'
 
     # JWT
-    JWT_ACCESS_TOKEN_EXPIRE_MINUTES: int = 1440
+    JWT_ACCESS_TOKEN_EXPIRE_MINUTES: int = 30
     JWT_ALGORITHM: str = 'HS256'
-    JWT_SECRET_KEY: str = 'qualquer_texto'
+    JWT_SECRET_KEY: str = (
+        'qualquer_texto'  # gere com comando: openssl rand -hex 32
+    )
 
     # Log
     LOG_LEVEL: str = 'DEGUB'

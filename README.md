@@ -63,5 +63,9 @@ Ao finalizar:
 
 TODO
 
+- Fix warn ao gerar token
+- Token gerado é válido somente para operações com aquele usuário
+- Enviar email de confimação de conta
+- Esqueci minha senha
 - Configurar README-AI https://github.com/eli64s/readme-ai
 - Docs com Scalar
