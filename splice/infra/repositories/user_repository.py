@@ -9,7 +9,7 @@ class UserRepository:
         self.db_session = db_session
 
     async def save(self, user: User) -> User:
-        self.db_session.add(user)
+        await self.db_session.merge(user)
         await self.db_session.commit()
         return user
 

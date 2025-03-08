@@ -31,7 +31,7 @@ async def get(
     service = UserService(repo)
 
     if user_id:
-        if user_id != current_user.id:
+        if user_id != str(current_user.id):
             raise acesso_negado
         usuario = await service.get_user_by_id(user_id)
     elif username:
@@ -56,7 +56,7 @@ async def get(
     return usuario
 
 
-@router.post('', response_model=User)
+@router.post('', response_model=UserResponse)
 async def create(
     data: UserCreateSchema = Body(),  # type: ignore
     db_session: Session = Depends(get_pg_session),
@@ -67,7 +67,7 @@ async def create(
     return usuario
 
 
-@router.put('', response_model=User)
+@router.put('', response_model=UserResponse)
 async def update(
     data: UserUpdateSchema = Body(),  # type: ignore
     db_session: Session = Depends(get_pg_session),
@@ -78,7 +78,6 @@ async def update(
 
     # Converte o body em dicionário, removendo campos nulos
     update_data = data.model_dump(exclude_unset=True)
-
     if data.id != current_user.id:
         raise acesso_negado
     # Passa os dados descompactados para a função de atualização
@@ -93,6 +92,6 @@ async def delete(
 ):
     repo = UserRepository(db_session)
     service = UserService(repo)
-    if user_id != current_user.id:
+    if user_id != str(current_user.id):
         raise acesso_negado
     return await service.delete_user(user_id)
