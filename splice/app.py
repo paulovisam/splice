@@ -35,6 +35,11 @@ from splice.interface.routers.user_router import router as user_router
 from splice.interface.routers.ws_router import router as ws_router
 from splice.settings import settings
 
+import bcrypt
+
+# Corrigindo bug na lib bycrypt
+# https://github.com/pyca/bcrypt/issues/684
+bcrypt.__about__ = bcrypt
 
 @asynccontextmanager
 async def lifespan(app: FastAPI):
