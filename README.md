@@ -63,6 +63,9 @@ Ao finalizar:
 
 TODO
 
+- Integração com clerk
+- Criar template com feat de https://fastapi.tiangolo.com/project-generation/
+- Template com copier https://copier.readthedocs.io/en/stable/
 - Fix warn ao gerar token
 - Token gerado é válido somente para operações com aquele usuário
 - Enviar email de confimação de conta
