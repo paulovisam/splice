@@ -37,7 +37,7 @@ cookiecutter = "^2.6.0"
 
 [tool.ruff]
 line-length = 79
-extend-exclude = ['migrations', 'labs*', 'cookiecutter*', 'module.py']
+extend-exclude = ['migrations', 'labs*', 'cookiecutter*', 'create_module.py']
 
 [tool.ruff.lint]
 preview = true
