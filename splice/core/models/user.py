@@ -24,6 +24,8 @@ class User(BaseTable, table=True):
     username: str = Field(index=True, unique=True, nullable=False)
     password: str = Field(nullable=False)
     photo: str = Field()
+    clerk_id: str = Field()
+    disabled: bool = Field(default=False)
 
     establishment: Optional['Establishment'] = Relationship(  # type: ignore #noqa: F821
         back_populates='user', sa_relationship_kwargs={'lazy': 'selectin'}
