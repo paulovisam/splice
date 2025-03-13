@@ -1,11 +1,11 @@
-from splice.infra.repositories.order_repository import OrderRepository
+from splice.infra.repositories.order_repository import OrderRepository, Order
 
 
 class UpdateOrder:
     def __init__(self, order_repo: OrderRepository):
         self.order_repo = order_repo
 
-    async def execute(self, order_id: str, **kwargs):
+    async def execute(self, order_id: str, **kwargs) -> Order:
         # Obtém  pelo ID
         order = await self.order_repo.get_by_id(order_id)
 

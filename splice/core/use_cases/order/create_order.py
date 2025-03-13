@@ -1,9 +1,8 @@
-from splice.core.models.order import Order
-from splice.infra.repositories.order_repository import OrderRepository
+from splice.infra.repositories.order_repository import OrderRepository, Order
 
 
 class CreateOrder:
-    def __init__(self, order_repo: OrderRepository):
+    def __init__(self, order_repo: OrderRepository) -> Order:
         self.order_repo = order_repo
 
     async def execute(self, **kwargs):
