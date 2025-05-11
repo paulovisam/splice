@@ -1,6 +1,6 @@
-from typing import List
+from typing import List, Dict, Any
 
-from fastapi import APIRouter, Body, Depends
+from fastapi import APIRouter, Body, Depends, Response
 from fastapi.exceptions import HTTPException
 from sqlalchemy.orm import Session
 
@@ -18,11 +18,13 @@ from splice.interface.service.order_service import OrderService
 router = APIRouter(prefix='/orders')
 
 
-@router.get('', response_model=List[Order])
+@router.get('', response_model=Dict[str, Any])
 async def get(
+    response: Response,
     order_id: str = None,
-    user_id: str = None,
     establishment_id: str = None,
+    offset: int = 0,
+    limit: int = 10,
     db_session: Session = Depends(get_pg_session),
     current_user: User = Depends(get_current_user),
 ):
@@ -31,19 +33,40 @@ async def get(
 
     if order_id:
         order = [await service.get_by_id(order_id)]
-    elif user_id:
-        order = await service.get_by_user_id(user_id)
     elif establishment_id:
-        order = await service.get_by_establishment_id(establishment_id)
-    else:
-        raise HTTPException(
-            status_code=400, detail='Parâmetro de consulta necessário'
+        order = await service.get_by_establishment_id(
+            establishment_id, offset, limit
         )
+        # Obtendo o total de pedidos para a paginação
+        total_orders = await service.count_orders_establishment_id(
+            establishment_id
+        )
+    else:
+        order = await service.get_by_user_id(current_user.id, offset, limit)
+        # Obtendo o total de pedidos para a paginação
+        total_orders = await service.count_orders_user_id(current_user.id)
 
     if not order:
         raise HTTPException(status_code=404, detail='Order não encontrado')
 
-    return order
+    # Verificando se há próxima página
+    has_next_page = offset + len(order) < total_orders
+
+    # Definindo o cabeçalho Content-Range
+    response.headers['Content-Range'] = (
+        f'orders {offset}-{offset + len(order) - 1}/{total_orders}'
+    )
+    response.headers['Access-Control-Expose-Headers'] = 'Content-Range'
+
+    return {
+        "data": order,
+        "total": total_orders,
+        "pageInfo": {
+            "hasNextPage": has_next_page,
+            "hasPreviousPage": offset > 0,
+        },
+        "meta": {},  # Adicione metadados se necessário
+    }
 
 
 @router.post('', response_model=Order)

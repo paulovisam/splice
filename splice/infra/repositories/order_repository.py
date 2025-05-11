@@ -1,6 +1,6 @@
 from uuid import UUID
 
-from sqlalchemy import select
+from sqlalchemy import select, func
 from sqlalchemy.orm import Session
 
 from splice.core.models.order import Order
@@ -19,14 +19,26 @@ class OrderRepository:
         statement = select(Order).filter_by(id=order_id)
         return (await self.db_session.execute(statement)).scalar_one_or_none()
 
-    async def get_by_user_id(self, user_id: UUID) -> Order | None:
-        statement = select(Order).filter_by(user_id=user_id)
+    async def get_by_user_id(
+        self, user_id: UUID, offset: int, limit: int
+    ) -> Order | None:
+        statement = (
+            select(Order)
+            .filter_by(user_id=user_id)
+            .offset(offset)
+            .limit(limit)
+        )
         return (await self.db_session.execute(statement)).scalars().all()
 
     async def get_by_establishment_id(
-        self, establishment_id: UUID
+        self, establishment_id: UUID, offset: int, limit: int
     ) -> Order | None:
-        statement = select(Order).filter_by(establishment_id=establishment_id)
+        statement = (
+            select(Order)
+            .filter_by(establishment_id=establishment_id)
+            .offset(offset)
+            .limit(limit)
+        )
         return (await self.db_session.execute(statement)).scalars().all()
 
     async def delete(self, order_id: UUID) -> None:
@@ -35,3 +47,15 @@ class OrderRepository:
         if order:
             await self.db_session.delete(order)
             await self.db_session.commit()
+
+    async def count_by_user_id(self, user_id: str) -> int:
+        statement = select(func.count()).filter(Order.user_id == user_id)
+        result = await self.db_session.execute(statement)
+        return result.scalar()
+
+    async def count_by_establishment_id(self, establishment_id: str) -> int:
+        statement = select(func.count()).filter(
+            Order.establishment_id == establishment_id
+        )
+        result = await self.db_session.execute(statement)
+        return result.scalar()
