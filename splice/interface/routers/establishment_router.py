@@ -62,6 +62,9 @@ async def update(
 ):
     repo = EstablishmentRepository(db)
     service = EstablishmentService(repo)
+    establishment = await service.get_by_id(data.id)
+    if establishment.user_id != current_user.id:
+        raise AcessoNegado()
     return await service.update_establishment(**data.model_dump())
 
 
@@ -73,6 +76,9 @@ async def delete(
 ):
     repo = EstablishmentRepository(db)
     service = EstablishmentService(repo)
+    establishment = await service.get_by_id(establishment_id)
+    if establishment.user_id != current_user.id:
+        raise AcessoNegado()
     return await service.delete_establishment(
         establishment_id=establishment_id
     )

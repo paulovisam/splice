@@ -12,6 +12,7 @@ from splice.core.models.order import (
 from splice.core.models.user import User
 from splice.infra.database import get_pg_session
 from splice.infra.repositories.order_repository import OrderRepository
+from splice.interface.exceptions.custom_exceptions import AcessoNegado
 from splice.interface.service.auth_service import get_current_user
 from splice.interface.service.order_service import OrderService
 
@@ -77,6 +78,8 @@ async def create(
 ):
     repo = OrderRepository(db_session)
     service = OrderService(repo)
+    if data.user_id != current_user.id:
+        raise AcessoNegado()
     order = await service.create(**data.model_dump())
     return order
 
@@ -89,6 +92,9 @@ async def update(
 ):
     repo = OrderRepository(db_session)
     service = OrderService(repo)
+    order = await service.get_by_id(data.id)
+    if order.user_id != current_user.id:
+        raise AcessoNegado()
 
     # Converte o body em dicionário, removendo campos nulos
     update_data = data.model_dump(exclude_unset=True)
@@ -105,4 +111,7 @@ async def delete(
 ):
     repo = OrderRepository(db_session)
     service = OrderService(repo)
+    order = await service.get_by_id(order_id)
+    if order.user_id != current_user.id:
+        raise AcessoNegado()
     return await service.delete(order_id)

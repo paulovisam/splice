@@ -10,12 +10,12 @@ from splice.core.models.user import (
 )
 from splice.infra.database import get_pg_session
 from splice.infra.repositories.user_repository import UserRepository
+from splice.interface.exceptions.custom_exceptions import AcessoNegado
 from splice.interface.service.auth_service import get_current_user
 from splice.interface.service.user_service import UserService
 
-router = APIRouter(prefix='/users')
 
-acesso_negado = HTTPException(status_code=403, detail='Acesso negado')
+router = APIRouter(prefix='/users')
 
 
 @router.get('', response_model=UserResponse)
@@ -32,19 +32,19 @@ async def get(
 
     if user_id:
         if user_id != str(current_user.id):
-            raise acesso_negado
+            raise AcessoNegado()
         usuario = await service.get_user_by_id(user_id)
     elif username:
         if username != current_user.username:
-            raise acesso_negado
+            raise AcessoNegado()
         usuario = await service.get_user_by_username(username)
     elif email:
         if email != current_user.email:
-            raise acesso_negado
+            raise AcessoNegado()
         usuario = await service.get_user_by_email(email)
     elif phone:
         if phone != current_user.phone:
-            raise acesso_negado
+            raise AcessoNegado()
         usuario = await service.get_user_by_phone(phone)
     else:
         raise HTTPException(
@@ -79,7 +79,7 @@ async def update(
     # Converte o body em dicionário, removendo campos nulos
     update_data = data.model_dump(exclude_unset=True)
     if data.id != current_user.id:
-        raise acesso_negado
+        raise AcessoNegado()
     # Passa os dados descompactados para a função de atualização
     return await service.update_user(user_id=data.id, **update_data)
 
@@ -93,5 +93,5 @@ async def delete(
     repo = UserRepository(db_session)
     service = UserService(repo)
     if user_id != str(current_user.id):
-        raise acesso_negado
+        raise AcessoNegado()
     return await service.delete_user(user_id)
